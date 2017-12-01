@@ -1,0 +1,98 @@
+.main-content {
+    width: 100%;
+    padding: 20px 0px;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+}
+
+.main-content .pca-background,
+.main-content .fst-background,
+.main-content .admixture-background {
+    width: 100%;
+    display: inline-block;
+    background: url('../images/gene-background.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position-y: 100%;
+}
+
+.main-content .pca-background .pca-part,
+.main-content .fst-background .fst-part,
+.main-content .admixture-background .admixture-part {
+    width: 100%;
+    padding: 0 10px;
+    padding-bottom: 100px;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.main-content .pca-background .pca-part .title,
+.main-content .fst-background .fst-part .title,
+.main-content .admixture-background .admixture-part .title {
+    font-size: 24px;
+    color: #bf5640;
+    text-align: center;
+    line-height: 2em;
+    height: 65px;
+    background: url('../images/han-1.png');
+    background-repeat: no-repeat;
+    background-position: 50% 140%;
+    background-size: 140px 40px;
+    margin: 20px 0;
+}
+
+.main-content .fst-background .fst-part .pop-select {
+    width: 100%;
+    text-align: right;
+}
+
+.main-content .fst-background .fst-part .pop-select #people {
+    width: 160px;
+    height: 30px;
+}
+
+.main-content .fst-background .fst-part #classZ .legendsty {
+    padding: 7px 14px;
+    border: none;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-right: 5px;
+}
+
+.main-content .fst-background .fst-part #classZ span {
+    font-size: 14px;
+    margin-right: 10px;
+}
+
+#pca,
+#fst,
+#admixture {
+    width: 100%;
+    height: 400px;
+}
+
+#admixture {
+    height: 500px;
+}
+
+@media (min-width:768px) {
+    .main-content .pca-background .pca-part,
+    .main-content .fst-background .fst-part,
+    .main-content .admixture-background .admixture-part {
+        padding: 0 40px;
+        padding-bottom: 100px;
+    }
+}
+
+@media (min-width:992px) {}
+
+@media (min-width:1200px) {
+    .main-content .pca-background .pca-part,
+    .main-content .fst-background .fst-part,
+    .main-content .admixture-background .admixture-part {
+        width: 1170px;
+        margin: 0 auto;
+        padding: 0px;
+        padding-bottom: 40px;
+    }
+}

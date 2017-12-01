@@ -1,0 +1,96 @@
+.main-content {
+    width: 100%;
+    padding: 20px 10px;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+}
+
+.main-content .title {
+    font-size: 24px;
+    color: #bf5640;
+    text-align: center;
+    line-height: 2em;
+    height: 65px;
+    background: url('../images/han-1.png');
+    background-repeat: no-repeat;
+    background-position: 50% 140%;
+    background-size: 140px 40px;
+}
+
+.main-content .collaborator {
+    width: 100%;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.main-content .collaborator .collaborator-pi {
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+
+/* .main-content .collaborator .collaborator-pi .collaborator-pi-left,
+.main-content .collaborator .collaborator-pi .collaborator-pi-right {
+    width: 45%;
+    float: left;
+    text-align: center;
+} */
+
+.main-content .collaborator .collaborator-pi .collaborator-pi-left p,
+.main-content .collaborator .collaborator-pi .collaborator-pi-right p {
+    line-height: 2em;
+}
+
+.main-content .collaborator .collaborator-pi .collaborator-pi-left p img,
+.main-content .collaborator .collaborator-pi .collaborator-pi-right p img {
+    vertical-align: middle;
+    margin-right: 15px;
+    width: 30px;
+}
+
+.main-content .collaborator .collaborator-pi .collaborator-pi-middle {
+    width: 10%;
+    float: left;
+    text-align: center;
+    display: none;
+}
+
+.main-content .data-intro {
+    margin-top: 20px;
+    text-align: justify;
+}
+
+@media (min-width:768px) {
+    .main-content {
+        padding: 20px 40px;
+        padding-bottom: 80px;
+    }
+    .main-content .collaborator .collaborator-pi {
+        width: 80%;
+    }
+    .main-content .collaborator .collaborator-pi .collaborator-pi-left,
+    .main-content .collaborator .collaborator-pi .collaborator-pi-right {
+        width: 45%;
+        float: left;
+        text-align: center;
+    }
+}
+
+@media (min-width:992px) {
+    .main-content .collaborator .collaborator-pi .collaborator-pi-middle {
+        display: block;
+        padding-top: 13px;
+    }
+}
+
+@media (min-width:1200px) {
+    .main-content {
+        width: 1170px;
+        margin: 0 auto;
+        padding: 20px 0px;
+        padding-bottom: 80px;
+    }
+}

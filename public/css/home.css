@@ -1,0 +1,231 @@
+.wrap {
+    background: url('../images/han-6.png');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position-y: 100%;
+}
+
+.main-content {
+    width: 100%;
+    padding: 20px 10px;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+}
+
+.main-content .sample-info {
+    width: 100%;
+    padding: 20px 15px;
+    border-radius: 10px;
+    background: url('../images/sample-background.png');
+    background-size: 100% 100%;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.main-content .sample-info .sample-description {
+    width: 100%;
+    padding: 40px 20px 40px 20px;
+    background: #eee;
+    box-sizing: border-box;
+    box-shadow: 5px -2px 20px 5px #727272;
+}
+
+.main-content .sample-info .sample-description a {
+    color: #bf5640;
+    text-decoration: none;
+}
+
+.main-content .sample-info #sample-geo {
+    width: 100%;
+    height: 300px;
+    background: #fff;
+    box-shadow: 5px -2px 20px 5px #727272;
+}
+
+.fullSlide {
+    width: 100%;
+    position: relative;
+    height: 410px;
+    background: #000;
+    margin-top: 20px;
+}
+
+.fullSlide .bd {
+    margin: 0 auto;
+    position: relative;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.fullSlide .bd ul {
+    width: 100% !important;
+}
+
+.fullSlide .bd li {
+    width: 100% !important;
+    height: 410px;
+    overflow: hidden;
+    text-align: center;
+}
+
+.fullSlide .bd li a {
+    display: block;
+    height: 410px;
+}
+
+.fullSlide .hd {
+    width: 100%;
+    position: absolute;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    height: 30px;
+    line-height: 30px;
+}
+
+.fullSlide .hd ul {
+    text-align: center;
+}
+
+.fullSlide .hd ul li {
+    cursor: pointer;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    width: 42px;
+    height: 11px;
+    margin: 1px;
+    overflow: hidden;
+    background: #000;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+    line-height: 999px;
+}
+
+.fullSlide .hd ul .on {
+    background: #f00;
+}
+
+.fullSlide .prev,
+.fullSlide .next {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    top: 50%;
+    margin-top: -30px;
+    left: 15%;
+    z-index: 1;
+    width: 40px;
+    height: 60px;
+    background: url(../images/images/slider-arrow.png) -126px -137px #000 no-repeat;
+    cursor: pointer;
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+    display: none;
+}
+
+.fullSlide .next {
+    left: auto;
+    right: 15%;
+    background-position: -6px -137px;
+}
+
+
+/* .main-content .intro {
+    width: 100%;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.main-content .intro .intro-title {
+    text-align: center;
+    font-size: 24px;
+    color: #bf5640;
+}
+
+.main-content .intro .intro-content {
+    margin-top: 20px;
+    text-align: justify;
+} */
+
+.main-content .pgg-link {
+    width: 100%;
+    margin-top: 20px;
+    display: inline-block;
+    text-align: center;
+}
+
+.main-content .pgg-link .pgg-link-logo {
+    display: inline-block;
+}
+
+.main-content .pgg-link .pgg-link-logo .logo-center {
+    display: inline-block;
+}
+
+.main-content .pgg-link .pgg-link-logo .pgg-sv,
+.main-content .pgg-link .pgg-link-logo .pgg-expression,
+.main-content .pgg-link .pgg-link-logo .pgg-snv,
+.main-content .pgg-link .pgg-link-logo .pgg-tools {
+    float: left;
+    text-align: center;
+    margin: 0 10px;
+    color: #bf5640;
+}
+
+.main-content .pgg-link .pgg-link-contact {
+    margin-top: 20px;
+    line-height: 1.6em;
+    text-align: center;
+}
+
+@media (min-width:768px) {
+    .main-content {
+        padding: 20px 40px;
+        padding-bottom: 80px;
+    }
+    .main-content .sample-info .sample-description {
+        width: 40%;
+        height: 300px;
+        overflow: hidden;
+        float: left;
+    }
+    .main-content .sample-info #sample-geo {
+        width: 60%;
+        float: right;
+    }
+}
+
+@media (min-width:992px) {
+    .main-content .sample-info .sample-description {
+        height: 350px;
+        padding: 40px;
+        line-height: 1.6em;
+    }
+    .main-content .sample-info #sample-geo {
+        height: 350px;
+    }
+    .main-content .pgg-link .pgg-link-logo {
+        width: 70%;
+        float: right;
+        text-align: center;
+    }
+    .main-content .pgg-link .pgg-link-contact {
+        width: 30%;
+        float: left;
+        text-align: left;
+        margin-top: 80px;
+        padding-left: 40px;
+        box-sizing: border-box;
+    }
+}
+
+@media (min-width:1200px) {
+    .main-content {
+        width: 1170px;
+        margin: 0 auto;
+        padding: 20px 0px;
+        padding-bottom: 80px;
+    }
+}

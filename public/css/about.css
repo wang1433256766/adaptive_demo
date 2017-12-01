@@ -1,0 +1,161 @@
+.main-content {
+    width: 100%;
+    padding: 20px 10px;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+}
+
+.main-content .flow {
+    width: 100%;
+}
+
+.main-content .flow p {
+    font-size: 1.5em;
+    color: #bf5640;
+    text-align: center;
+    line-height: 2em;
+    height: 65px;
+    background: url('../images/han-1.png');
+    background-repeat: no-repeat;
+    background-position: 50% 140%;
+    background-size: 140px 40px;
+}
+
+.main-content .flow .flow-image {
+    margin: 20px auto;
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.main-content .project-intro {
+    width: 100%;
+    padding: 20px 15px;
+    box-sizing: border-box;
+}
+
+.main-content .project-intro .project-intro-title {
+    font-size: 1.5em;
+    color: #bf5640;
+    text-align: center;
+    line-height: 2em;
+    height: 65px;
+    background: url('../images/han-1.png');
+    background-repeat: no-repeat;
+    background-position: 50% 140%;
+    background-size: 140px 40px;
+}
+
+.main-content .project-intro .sample .project-intro-littletitle,
+.main-content .project-intro .source .project-intro-littletitle,
+.main-content .project-intro .area .project-intro-littletitle {
+    line-height: 3em;
+    padding: 20px 20px 0;
+    box-sizing: border-box;
+}
+
+.main-content .project-intro .sample .project-intro-littletitle img,
+.main-content .project-intro .source .project-intro-littletitle img,
+.main-content .project-intro .area .project-intro-littletitle img {
+    vertical-align: middle;
+    margin-top: -4px;
+    margin-right: 6px;
+    width: 30px;
+}
+
+.main-content .project-intro .sample .project-intro-littletitle span,
+.main-content .project-intro .source .project-intro-littletitle span,
+.main-content .project-intro .area .project-intro-littletitle span {
+    font-size: 1.2em;
+    color: #000;
+}
+
+.main-content .project-intro .sample p,
+.main-content .project-intro .source p,
+.main-content .project-intro .area p {
+    text-align: justify;
+}
+
+.main-content .collaborator {
+    width: 100%;
+    padding: 20px 15px;
+    box-sizing: border-box;
+    display: inline-block;
+}
+
+.main-content .collaborator .collaborator-pi {
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+
+/* .main-content .collaborator .collaborator-pi .collaborator-pi-left,
+.main-content .collaborator .collaborator-pi .collaborator-pi-right {
+    width: 45%;
+    float: left;
+    text-align: center;
+} */
+
+.main-content .collaborator .collaborator-pi .collaborator-pi-left p,
+.main-content .collaborator .collaborator-pi .collaborator-pi-right p {
+    line-height: 2em;
+}
+
+.main-content .collaborator .collaborator-pi .collaborator-pi-left p img,
+.main-content .collaborator .collaborator-pi .collaborator-pi-right p img {
+    vertical-align: middle;
+    margin-top: -2px;
+    margin-right: 15px;
+    width: 30px;
+}
+
+.main-content .collaborator .collaborator-pi .collaborator-pi-left p .pi-name,
+.main-content .collaborator .collaborator-pi .collaborator-pi-right p .pi-name {
+    margin-right: 30px;
+}
+
+.main-content .collaborator .collaborator-pi .collaborator-pi-middle {
+    width: 10%;
+    float: left;
+    text-align: center;
+    display: none;
+}
+
+@media (min-width:768px) {
+    .main-content {
+        padding: 20px 40px;
+        padding-bottom: 80px;
+    }
+    .main-content .collaborator {
+        background: url('../images/han-3.png');
+        background-repeat: no-repeat;
+        background-position: 5% 50%;
+        background-size: 80px 120px;
+    }
+    .main-content .collaborator .collaborator-pi {
+        width: 80%;
+    }
+    .main-content .collaborator .collaborator-pi .collaborator-pi-left,
+    .main-content .collaborator .collaborator-pi .collaborator-pi-right {
+        width: 45%;
+        float: left;
+        text-align: center;
+    }
+    .main-content .collaborator .collaborator-pi .collaborator-pi-middle {
+        display: block;
+        padding-top: 13px;
+    }
+}
+
+@media (min-width:992px) {}
+
+@media (min-width:1200px) {
+    .main-content {
+        width: 1170px;
+        margin: 0 auto;
+        padding: 20px 0px;
+        padding-bottom: 80px;
+    }
+}

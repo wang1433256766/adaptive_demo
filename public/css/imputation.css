@@ -1,0 +1,90 @@
+.main-content {
+    width: 100%;
+    padding: 20px 10px;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+}
+
+.main-content .tolink {
+    text-align: center;
+}
+
+.main-content .tolink p {
+    line-height: 5em;
+}
+
+.main-content .tolink p img {
+    vertical-align: middle;
+    margin-right: 15px;
+    width: 30px;
+}
+
+.main-content .tolink p a {
+    color: #bf5640;
+}
+
+.main-content .reference-panel .title {
+    font-size: 24px;
+    color: #bf5640;
+    text-align: center;
+    line-height: 2em;
+    height: 65px;
+    background: url('../images/han-1.png');
+    background-repeat: no-repeat;
+    background-position: 50% 140%;
+    background-size: 140px 40px;
+    margin: 20px 0;
+}
+
+.main-content .reference-panel .reference-content p {
+    line-height: 2em;
+}
+
+.main-content .reference-panel .reference-content table {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+.main-content .reference-panel .reference-content table thead tr {
+    width: 100%;
+    height: 40px;
+    background: #bf5640;
+    color: #fff;
+    text-align: center;
+}
+
+.main-content .reference-panel .reference-content table thead tr th {
+    border: 1px solid #666;
+    word-wrap: break-word;
+}
+
+.main-content .reference-panel .reference-content table tbody tr {
+    width: 100%;
+    height: 30px;
+    text-align: center;
+}
+
+.main-content .reference-panel .reference-content table tbody tr td {
+    border: 1px solid #666;
+    word-wrap: break-word;
+}
+
+@media (min-width:768px) {
+    .main-content {
+        padding: 20px 40px;
+        padding-bottom: 80px;
+    }
+}
+
+@media (min-width:992px) {}
+
+@media (min-width:1200px) {
+    .main-content {
+        width: 1170px;
+        margin: 0 auto;
+        padding: 20px 0px;
+        padding-bottom: 80px;
+    }
+}

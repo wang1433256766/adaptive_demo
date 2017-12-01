@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Home1</title>
+    <link rel="stylesheet" type="text/css" href="../public/font_eh0fpcd88eiv0a4i/iconfont.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/nav_footer.css">
+    <link rel="stylesheet" href="../public/css/genetic_makeup.css">
+</head>
+
+<body>
+    <div class="wrap">
+        <div class="nav">
+            <div class="nav-header">
+                <div class="nav-bar">
+                    <img src="../public/images/logo.png" alt="background"><span>HanChineseGemomes</span>
+                    <div class="input-group">
+                        <input type="text" placeholder="Keywords">
+                        <button>Search</button>
+                    </div>
+                </div>
+                <div class="nav-icon">
+                    <button id="toggle-navlist"><i class="iconfont icon-nav"></i></button>
+                </div>
+                <div class="nav-list">
+                    <ul>
+                        <li><a href="./home.html">Home</a></li>
+                        <li><a href="./about.html">About</a></li>
+                        <li><a href="./data.html">Data</a></li>
+                        <li><a href="./imputation.html">Imputation</a></li>
+                        <li><a href="./variant.html">Variant</a></li>
+                        <li class="active"><a href="./genetic_makeup.html">Genetic-makeup</a></li>
+                        <li><a href="./ancestry_inference.html">Ancestry-inference</a></li>
+                        <li><a href="./comment.html">Comment</a></li>
+                    </ul>
+                    <div class="login-self">
+                        <a href="./login.html">Login</a>
+                        <a href="./register.html">Register</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="pca-background">
+                <div class="pca-part">
+                    <p class="title">PCA</p>
+                    <div id="pca"></div>
+                </div>
+            </div>
+            <div class="fst-background">
+                <div class="fst-part">
+                    <p class="title">FST</p>
+                    <div class="pop-select"><select id="people"></select></div>
+                    <div id="classZ"></div>
+                    <div id="fst"></div>
+                </div>
+            </div>
+            <div class="admixture-background">
+                <div class="admixture-part">
+                    <p class="title">This is for Admixture analysis</p>
+                    <div id="admixture"></div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            CAS-MAP Partner Institute for Computational Blology [PGG]. Copyright &copy; 2015-2017
+        </div>
+    </div>
+    <script src="../public/js/assert/jquery.min.js"></script>
+    <script src="../public/js/assert/echarts.min.js"></script>
+    <script src="../public/js/assert/accuracy.js"></script>
+    <script src="../public/js/nav.js"></script>
+    <script src="../public/js/genetic_makeup.js"></script>
+</body>
+
+</html>

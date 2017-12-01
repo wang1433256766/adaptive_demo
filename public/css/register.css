@@ -1,0 +1,184 @@
+.wrap {
+    width: 100%;
+    height: 100%;
+    margin-bottom: 40px;
+}
+
+.content {
+    position: absolute;
+    background: transparent;
+    top: 50%;
+    height: 540px;
+    margin-top: -270px;
+    box-sizing: border-box;
+}
+
+.content-title {
+    box-sizing: border-box;
+    margin: 15px 0;
+    height: 40px;
+    line-height: 40px;
+}
+
+.login,
+.register {
+    width: 50%;
+    float: left;
+    text-align: center;
+}
+
+.login a,
+.register a {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #000000;
+}
+
+.title-active a {
+    color: #F79440;
+}
+
+.content-main {
+    clear: both;
+    box-sizing: border-box;
+}
+
+.register-email {
+    border: solid 1px #ccc;
+    border-radius: 6px;
+    width: 99%;
+    height: 50px;
+    background: url(../images/register_01.png) no-repeat 5px center;
+}
+
+.register-name {
+    border: solid 1px #ccc;
+    border-radius: 6px;
+    width: 99%;
+    height: 50px;
+    background: url(../images/register_03.png) no-repeat 5px center;
+}
+
+.register-institution {
+    border: solid 1px #ccc;
+    border-radius: 6px;
+    width: 99%;
+    height: 50px;
+    background: url(../images/register_04.png) no-repeat 5px center;
+}
+
+.register-addr {
+    border: solid 1px #ccc;
+    border-radius: 6px;
+    width: 99%;
+    height: 50px;
+    background: url(../images/register_05.png) no-repeat 5px center;
+}
+
+.register-pwd {
+    border: solid 1px #ccc;
+    border-radius: 6px;
+    width: 99%;
+    height: 50px;
+    background: url(../images/register_02.png) no-repeat 5px center;
+}
+
+.register-repwd {
+    border: solid 1px #ccc;
+    border-radius: 6px;
+    width: 99%;
+    height: 50px;
+    background: url(../images/register_02.png) no-repeat 5px center;
+}
+
+.register-email input,
+.register-name input,
+.register-institution input,
+.register-addr input,
+.register-pwd input,
+.register-repwd input {
+    float: left;
+    border: none;
+    background: none;
+    height: 50px;
+    line-height: 50px;
+    width: 100%;
+    text-indent: 42px;
+}
+
+.check-email,
+.check-name,
+.check-institution,
+.check-addr,
+.check-pwd,
+.check-repwd {
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    color: red;
+    text-indent: 42px;
+}
+
+.input-btn {
+    width: 100%;
+    height: 50px;
+    line-height: 50px;
+    border-radius: 5px;
+    background-color: #1b6ea4;
+    color: #ffffff;
+    border: 0;
+}
+
+.intro {
+    width: 100%;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 10px;
+}
+
+@media screen and (max-width: 769px) {
+    .content {
+        width: 100%;
+    }
+    .left-logo {
+        display: none;
+    }
+}
+
+@media screen and (min-width: 769px) {
+    .content {
+        left: 50%;
+        width: 768px;
+        margin-left: -384px;
+    }
+    .left-logo {
+        width: 35%;
+        float: left;
+        color: #999999;
+    }
+    .left-logo .logo {
+        margin: 20px auto;
+        line-height: 60px;
+        margin-left: 10px;
+    }
+    .logo p {
+        margin-left: 46px;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    .logo p img {
+        vertical-align: middle;
+        margin-right: 15px;
+    }
+    .left-logo .logo:first-child {
+        margin-top: 40px;
+    }
+    .left-logo .logo:last-child {
+        margin-bottom: 40px;
+    }
+    .right-content {
+        width: 60%;
+        float: left;
+    }
+}
