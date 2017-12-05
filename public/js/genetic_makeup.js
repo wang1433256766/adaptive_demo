@@ -1,227 +1,74 @@
-//取array 的unique 值。用法  arraryname.unique
-Array.prototype.unique = function() {
-    var res = [];
-    var json = {};
-    for (var i = 0; i < this.length; i++) {
-        if (!json[this[i]]) {
-            res.push(this[i]);
-            json[this[i]] = 1;
-        }
-    }
-    return res;
-};
-//对象数组根据多属性排序
-var sortAnces = function(prop1, prop2) {
-    return function(obj1, obj2) {
-        //prop1
-        var val1 = obj1[prop1];
-        var val2 = obj2[prop1];
-        if (!isNaN(Number(val1)) && !isNaN(Number(val2))) { //1.isNaN() 函数可用于判断其参数是否是 NaN;2.如果对象的值无法转换为数字，那么 Number() 函数返回 NaN。
-            val1 = Number(val1);
-            val2 = Number(val2);
-        }
-        //prop2
-        var val3 = obj1[prop2];
-        var val4 = obj2[prop2];
-        if (!isNaN(Number(val3)) && !isNaN(Number(val4))) { //1.isNaN() 函数可用于判断其参数是否是 NaN;2.如果对象的值无法转换为数字，那么 Number() 函数返回 NaN。
-            val3 = Number(val3);
-            val4 = Number(val4);
-        }
-        if (val1 < val2) {
-            return -1;
-        } else if (val1 > val2) {
-            return 1;
-        } else {
-            if (val3 < val4) {
-                return -1;
-            } else if (val3 > val4) {
-                return 1;
-            } else {
-                return 0;
-            }
-        }
-    }
-}
-var tagpop = 'TBN';
-var myChartPca = echarts.init(document.getElementById('pca')); //散点图
-var myChartFst = echarts.init(document.getElementById('fst')); //拼图
+var tagpop = 'Han';
+var myChartPca1 = echarts.init(document.getElementById('pca1')); //散点图
+var myChartPca2 = echarts.init(document.getElementById('pca2')); //散点图
+var myChartPca3 = echarts.init(document.getElementById('pca3')); //散点图
+var myChartFst = echarts.init(document.getElementById('fst')); //饼图
 var admixtureChart = echarts.init(document.getElementById('admixture')); //geo+pie
-myChartPca.showLoading();
+var admixture2Chart = echarts.init(document.getElementById('admixture2')); //bar+polar
+myChartPca1.showLoading();
+myChartPca2.showLoading();
+myChartPca3.showLoading();
 myChartFst.showLoading();
 admixtureChart.showLoading();
-var optionFst = {
-    title: {
-        text: 'Fst',
-        x: 'center',
-        y: 'center'
-    },
-    tooltip: {
-        trigger: 'item',
-        position: ['48.5%', '49.2%'],
-        backgroundColor: 'grey',
-        showContent: true,
-        textStyle: {
-            color: 'black',
-            fontWeight: 'bold'
-        },
-        formatter: "Fst-{b} : {c}",
-        borderColor: 'black',
-    },
-    series: [{
-            name: 'Fst',
-            type: 'pie',
-            radius: ['10%', '80%'],
-            roseType: 'area',
-            z: 2,
-            color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622'],
-            data: '',
-            labelLine: {
-                normal: {
-                    show: true,
-                    length: 30,
-                    length2: 0,
-                    smooth: true,
-                    lineStyle: {
-                        color: '#ffffff'
-                    }
-                }
-            },
-            label: {
-                normal: {
-                    show: true,
-                    textStyle: {
-                        color: '#0000ff'
-                    }
-                }
-            },
-            itemStyle: {
-                normal: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                },
-                emphasis: {
-                    shadowBlur: 10,
-                    shadowOffsetX: 0,
-                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                }
-            }
-        }, {
-            name: '最大刻度',
-            type: 'pie',
-            radius: ['80%', '81%'],
-            roseType: 'area',
-            z: 1,
-            data: [{
-                value: 1,
-                name: '最大刻度'
-            }],
-            hoverAnimation: false, //关闭鼠标点上去的放大动画效果
-            itemStyle: {
-                normal: {
-                    color: "#f8f8f8"
-                }
-            },
-            label: {
-                normal: {
-                    show: false
-                }
-            },
-            labelLine: {
-                normal: {
-                    show: false
-                }
-            },
-            tooltip: {
-                show: false
-            }
-        }, {
-            name: '中间刻度',
-            type: 'pie',
-            radius: ['40%', '41%'],
-            roseType: 'area',
-            z: 1,
-            data: [{
-                value: 1,
-                name: '中间刻度'
-            }],
-            hoverAnimation: false, //关闭鼠标点上去的放大动画效果
-            itemStyle: {
-                normal: {
-                    color: "#f8f8f8"
-                }
-            },
-            label: {
-                normal: {
-                    show: false
-                }
-            },
-            labelLine: {
-                normal: {
-                    show: false
-                }
-            },
-            tooltip: {
-                show: false
-            }
-        }
-
-    ]
-};
-myChartFst.setOption(optionFst);
+admixture2Chart.showLoading();
 $(function() {
     /**
-     * pca
+     * pca (pca1,pca2,pca3)
      */
     $.get('../public/js/json/pca.json', function(item) {
-        myChartPca.hideLoading();
+        myChartPca1.hideLoading();
+        myChartPca2.hideLoading();
+        myChartPca3.hideLoading();
         var pca_data = eval('(' + item.content + ')');
-        plotmypca(pca_data, 'pca1', myChartPca);
+        $("#area").find('option').eq(0).text(pca_data.pca2[0].title);
+        $("#area").find('option').eq(1).text(pca_data.pca3[0].title);
+        $("#area-1").find('option').eq(0).text(pca_data.pca2[0].title);
+        $("#area-1").find('option').eq(1).text(pca_data.pca3[0].title);
+        plotmypca(pca_data, 'pca1', myChartPca1);
+        plotmypca(pca_data, 'pca2', myChartPca2);
+        plotmypca(pca_data, 'pca3', myChartPca3);
+        $("#area").change(function() {
+            var pca_value = $("#area option:selected").val();
+            if (pca_value == 'pca2') {
+                $("#area-1").val('pca2-1');
+                $("#pca2").removeClass('hidden');
+                $("#pca3").addClass('hidden');
+                myChartPca2.resize();
+            }
+            if (pca_value == 'pca3') {
+                $("#area-1").val('pca3-1');
+                $("#pca2").addClass('hidden');
+                $("#pca3").removeClass('hidden');
+                myChartPca3.resize();
+            }
+        });
+        $("#area-1").change(function() {
+            var pca_value = $("#area-1 option:selected").val();
+            if (pca_value == 'pca2-1') {
+                $("#area").val('pca2');
+                $("#pca2").removeClass('hidden');
+                $("#pca3").addClass('hidden');
+                myChartPca2.resize();
+            }
+            if (pca_value == 'pca3-1') {
+                $("#area").val('pca3');
+                $("#pca2").addClass('hidden');
+                $("#pca3").removeClass('hidden');
+                myChartPca3.resize();
+            }
+        })
     });
     /**
      * fst
      */
-    $.get('../public/js/json/pie.phyli', function(item) {
+    $.get('../public/js/json/fst.json', function(item) {
         myChartFst.hideLoading();
-        var optionHtml = "";
-        var dataArr = []; //所有行的数据组成的数组，数组内是所有行的对象
-        var peopleArr = []; //所有行内不同人群的数组
-        var peopleTempArr = []; //peopleTempArr表示所有行内所有人群的数据
+        var fst_data = eval('(' + item.content + ')');
+        //console.log(fst_data);
         //定义颜色数组
         var ancesColor = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'];
-        var lines = item.split(/[\r\n]+/g);
-        for (var i = 0; i < lines.length - 1; i++) {
-            var dataObj = {};
-            var linesData = lines[i].replace(/\s+/g, ' ').split(' '); //将多个空格整合成一个空格，并按一个空格分割为数组
-            dataObj.pop1 = linesData[0];
-            dataObj.pop2 = linesData[1];
-            dataObj.fst = linesData[2];
-            dataObj.ances = linesData[3];
-            dataArr.push(dataObj); //所有行的数据组成的数组，数组内是所有行的对象
-        }
 
-        //获取所有行内不同人群的数据
-        for (var j = 0; j < dataArr.length; j++) { //peopleTempArr表示所有行内所有人群的数据
-            peopleTempArr.push(dataArr[j].pop1);
-        }
-        for (var diffP = 0; diffP < peopleTempArr.length; diffP++) { //peopleArr表示所有行内不同人群的数据
-            if (peopleArr.indexOf(peopleTempArr[diffP]) == -1) {
-                peopleArr.push(peopleTempArr[diffP]);
-            }
-        }
-
-        //将不同人群的数据添加到option框中
-        for (var k = 0; k < peopleArr.length; k++) {
-            optionHtml += '<option value="' + k + '">' + peopleArr[k] + '</option>';
-        }
-        $("#people").html(optionHtml);
-
-        loadDiffPeople(dataArr, ancesColor);
-
-        $("#people").change(function() {
-            loadDiffPeople(dataArr, ancesColor);
-        })
-
+        loadDiffPeople(fst_data, ancesColor);
     });
     /**
      * admixture
@@ -383,6 +230,7 @@ $(function() {
                     trigger: 'item'
                 },
                 visualMap: {
+                    show: false,
                     min: 0,
                     max: 1,
                     left: 'left',
@@ -408,51 +256,140 @@ $(function() {
         })
     })
 
+    /**
+     * admixture2
+     */
+    $.get('../public/js/json/admixture_han.json', function(item) {
+        admixture2Chart.hideLoading();
+        var admixture2_data = eval('(' + item.content + ')');
+        var k_data = {};
+        for (var i = 0; i < 20; i++) {
+            var kn_dataArr = [];
+            for (var j = 0; j < admixture2_data.length; j++) {
+                kn_dataArr.push({ value: admixture2_data[j]['k' + (i + 1)], sample: admixture2_data[j].indiv_name });
+            }
+            k_data['k' + (i + 1)] = kn_dataArr;
+        };
+        admixture2Chart.setOption({
+            legend: {
+                show: true,
+                data: function() {
+                    var legend_data = [];
+                    for (var i = 0; i < 20; i++) {
+                        legend_data.push('k' + (i + 1));
+                    }
+                    return legend_data;
+                }()
+            },
+            tooltip: {
+                show: true,
+                trigger: 'axis',
+                formatter: function(params) {
+                    //console.log(params);
+                    var returnVal = params[0].data.sample + "--" + params[0].name + "<br>";
+                    for (var i = 0; i < params.length; i++) {
+                        if (i == 5 || i == 10 || i == 15) {
+                            returnVal += '<br>';
+                        }
+                        returnVal += params[i].seriesName + " : " + params[i].value + ";&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                    }
+                    return returnVal;
+                }
+            },
+            angleAxis: {
+                type: 'category',
+                boundaryGap: true,
+                data: function() {
+                    var x_data = [];
+                    for (var i = 0; i < admixture2_data.length; i++) {
+                        x_data.push(admixture2_data[i].name);
+                    }
+                    //console.log(x_data.unique());
+                    return x_data;
+                }(),
+                z: 10,
+                axisTick: {
+                    interval: function(index, name) {
+                        console.log(index + '---' + name);
+                        return false;
+                    }
+                },
+                axisLabel: {
+                    interval: function(index, name) {
+                        console.log(index + '---' + name);
+                        return false;
+                    }
+                }
+            },
+            radiusAxis: {
+                name: 'Proportion',
+                boundaryGap: true,
+                min: '-1',
+                max: 'dataMax'
+            },
+            polar: {},
+            color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3',
+                "#000000", "#000080", "#3CB371", "#FF8C00", "#FF0000", "#6495ED", "#FF1493", "#00BFFF", "cyan"
+            ],
+            series: function() {
+                var series_data = [];
+                for (var i = 0; i < 20; i++) {
+                    var series_dataObj = {};
+                    series_dataObj.name = 'k' + (i + 1);
+                    series_dataObj.type = 'bar';
+                    series_dataObj.coordinateSystem = 'polar';
+                    series_dataObj.stack = 'k';
+                    series_dataObj.data = k_data['k' + (i + 1)];
+                    series_data.push(series_dataObj);
+                }
+                return series_data;
+            }()
+        })
+
+    });
+
     window.addEventListener("resize", function() {
-        myChartPca.resize();
+        myChartPca1.resize();
+        myChartPca2.resize();
+        myChartPca3.resize();
         myChartFst.resize();
         admixtureChart.resize();
+        admixture2Chart.resize();
     });
 
 })
 
 function getPcaDataById(res, pcaindex) {
-    var ancescolor = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3', "#000000", "#000080", "#3CB371", "#FF8C00", "#FF0000", "#6495ED", "#FF1493", "#00BFFF", "cyan"];
-    var popscolor = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3', "#000000", "#000080", "#3CB371", "#FF8C00", "#FF0000", "#6495ED", "#FF1493", "#00BFFF", "cyan"];
+    var color = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3', "#000000", "#000080", "#3CB371", "#FF8C00", "#FF0000", "#6495ED", "#FF1493", "#00BFFF", "cyan"];
     var pca = res[pcaindex]; //获得第几组pca
     if (!pca) {
         return '';
     } else {
-        var ances = [];
-        var pops = [];
+        var ances = [], //祖源
+            pops = []; //人群
         for (var i = 0; i < pca.length; i++) {
             ances.push(pca[i].ancestry);
             pops.push(pca[i].name); // population name
         }
-        ances = ances.unique(); //统计ances array. 去重复;
-        ances.sort();
-        pops = pops.unique();
-        pops.sort();
-        var mydata = []; // array. store the pcas for each ancestry. ances[0]'s pca information is pca[0]
-        var type, colors;
-        //如果是pop 的数量很少，将以人群去显示legend,否则以ances 去显示legend
+        ances = ances.unique().sort(); //统计ances array. 去重复排序;
+        pops = pops.unique().sort();
+        var mydata = []; // 二维数组，表示各祖先包含的数据形成的数组，其中不包括群体为汉族的数据
+        var type;
+        //如果是pop 的数量少于20，将以pop(人群)去显示legend,否则以ances 去显示legend
         if (pops.length > 20) {
             for (var a = 0; a < ances.length; a++) {
-                var data = [];
+                var data = []; //各祖先数据
                 for (var i = 0; i < pca.length; i++) {
                     if (pca[i].ancestry == ances[a]) {
-                        //var oneind=[pca[i].pc1,pca[i].pc2,pca[i].indiv_name,pca[i].name,pca[i].ancestry,mypop_fullname[pca[i].name]];
-                        //data.push(oneind);
                         if (pca[i].name != tagpop) {
                             var oneind = [pca[i].pc1, pca[i].pc2, pca[i].indiv_name, pca[i].name, pca[i].ancestry];
                             data.push(oneind);
                         }
                     }
-
                 }
                 mydata.push(data);
             }
-
+            //获得所有汉族的数据
             var data_pop = [];
             for (var i = 0; i < pca.length; i++) {
                 if (pca[i].name == tagpop) {
@@ -462,10 +399,9 @@ function getPcaDataById(res, pcaindex) {
             }
             type = ances;
             if (data_pop.length > 0) {
-                mydata.push(data_pop);
+                mydata.push(data_pop); //将汉族的数据数组加入到祖先数据数组中
                 type.push(tagpop);
             }
-            colors = ancescolor;
         } else {
             for (var a = 0; a < pops.length; a++) {
                 var data = [];
@@ -476,14 +412,13 @@ function getPcaDataById(res, pcaindex) {
                     }
                 }
                 mydata.push(data);
-                colors = popscolor;
             }
             type = pops;
         }
         var obj = new Object();
         obj.type = type;
         obj.data = mydata;
-        obj.colors = colors;
+        obj.colors = color;
         obj.title = pca[0].title;
         return obj;
     }
@@ -636,12 +571,7 @@ function plotmypca(res, pcaindex, pcaEcharts) {
             },
             legend: {
                 //right: 20,
-                padding: [
-                    50,
-                    50,
-                    500,
-                    50
-                ],
+                padding: [50, 50, 500, 50],
                 left: 10,
                 //top:10,
                 //bottom:50,
@@ -677,34 +607,34 @@ function plotmypca(res, pcaindex, pcaEcharts) {
                 },
                 nameGap: 60
             },
-            color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3', "#000000", "#000080", "#3CB371", "#FF8C00", "#FF0000", "#6495ED", "#FF1493", "#00BFFF", "cyan"],
+            color: pcadata.colors,
             series: series
         };
         pcaEcharts.setOption(pcaplot);
     }
 }
 
-function loadDiffPeople(dataArr, ancesColor) {
-    var personArr = []; //属于同一人群的所有数据
+function loadDiffPeople(fst_data, ancesColor) {
+    var personArr = []; //Han人群的所有数据
     var ancesTempArr = []; //同一人群中所有的祖先数据
     var ancesArr = []; //同一人群中不同祖先的数据
-    var selectPeople = $("#people option:selected").text();
-    //根据option的选择，获取所选择人群的所有数据
-    for (var p = 0; p < dataArr.length; p++) {
-        if (selectPeople == dataArr[p].pop1) {
-            personArr.push(dataArr[p]); //personArr是属于同一人群的所有数据
+    for (var i = 0; i < fst_data.length; i++) {
+        if ('Han' == fst_data[i].pop1) {
+            personArr.push(fst_data[i]); //personArr是属于同一人群的所有数据
         } else {
-            if (selectPeople == dataArr[p].pop2) {
-                var tempDataArr = dataArr[p];
+            if ('Han' == fst_data[i].pop2) {
+                var tempDataArr = fst_data[i];
                 tempDataArr.pop2 = tempDataArr.pop1;
-                tempDataArr.pop1 = selectPeople;
+                tempDataArr.pop1 = 'Han';
                 personArr.push(tempDataArr);
             }
         }
     }
     personArr.sort(sortAnces("ances", "fst"));
 
-    //获取同一人群不同祖先的数据
+    /**
+     * 获取同一人群不同祖先的数据
+     */
     for (var q = 0; q < personArr.length; q++) {
         ancesTempArr.push(personArr[q].ances); //同一人群所有祖先的数据
     }
@@ -763,15 +693,28 @@ function loadEcharts(personArr) {
     }
     myChartFst.setOption({
         title: {
-            text: 'AA',
+            text: 'Han',
+            x: 'center',
+            y: 'center'
         },
         tooltip: {
             trigger: 'item',
-            formatter: "AA-{b} : {c}"
+            position: ['48.5%', '49.2%'],
+            backgroundColor: 'grey',
+            showContent: true,
+            textStyle: {
+                color: 'black',
+                fontWeight: 'bold'
+            },
+            formatter: "Han-{b} : {c}",
+            borderColor: 'black',
         },
         series: [{
             name: 'Fst',
             type: 'pie',
+            radius: ['10%', '80%'],
+            roseType: 'area',
+            z: 2,
             color: function() {
                 var color = [];
                 for (var i in personArr) {
@@ -823,6 +766,64 @@ function loadEcharts(personArr) {
                     shadowOffsetX: 0,
                     shadowColor: 'rgba(0, 0, 0, 0.5)'
                 }
+            }
+        }, {
+            name: '最大刻度',
+            type: 'pie',
+            radius: ['80%', '81%'],
+            roseType: 'area',
+            z: 1,
+            data: [{
+                value: 1,
+                name: '最大刻度'
+            }],
+            hoverAnimation: false, //关闭鼠标点上去的放大动画效果
+            itemStyle: {
+                normal: {
+                    color: "#666"
+                }
+            },
+            label: {
+                normal: {
+                    show: false
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            tooltip: {
+                show: false
+            }
+        }, {
+            name: '中间刻度',
+            type: 'pie',
+            radius: ['40%', '41%'],
+            roseType: 'area',
+            z: 1,
+            data: [{
+                value: 1,
+                name: '中间刻度'
+            }],
+            hoverAnimation: false, //关闭鼠标点上去的放大动画效果
+            itemStyle: {
+                normal: {
+                    color: "#666"
+                }
+            },
+            label: {
+                normal: {
+                    show: false
+                }
+            },
+            labelLine: {
+                normal: {
+                    show: false
+                }
+            },
+            tooltip: {
+                show: false
             }
         }]
     });

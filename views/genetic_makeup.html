@@ -47,13 +47,26 @@
             <div class="pca-background">
                 <div class="pca-part">
                     <p class="title">PCA</p>
-                    <div id="pca"></div>
+                    <div class="area-select">
+                        <select id="area">
+                            <option value="pca2" selected="selected">&nbsp;</option>
+                            <option value="pca3">&nbsp;</option>
+                        </select>
+                    </div>
+                    <div id="pca1"></div>
+                    <div class="area-select-1">
+                        <select id="area-1">
+                            <option value="pca2-1" selected="selected">&nbsp;</option>
+                            <option value="pca3-1">&nbsp;</option>
+                        </select>
+                    </div>
+                    <div id="pca2"></div>
+                    <div id="pca3" class="hidden"></div>
                 </div>
             </div>
             <div class="fst-background">
                 <div class="fst-part">
                     <p class="title">FST</p>
-                    <div class="pop-select"><select id="people"></select></div>
                     <div id="classZ"></div>
                     <div id="fst"></div>
                 </div>
@@ -62,6 +75,12 @@
                 <div class="admixture-part">
                     <p class="title">This is for Admixture analysis</p>
                     <div id="admixture"></div>
+                </div>
+            </div>
+            <div class="admixture2-background">
+                <div class="admixture2-part">
+                    <p class="title">This is for Admixture analysis</p>
+                    <div id="admixture2"></div>
                 </div>
             </div>
         </div>

@@ -1,3 +1,7 @@
+.hidden {
+    display: none;
+}
+
 .main-content {
     width: 100%;
     padding: 20px 0px;
@@ -7,7 +11,8 @@
 
 .main-content .pca-background,
 .main-content .fst-background,
-.main-content .admixture-background {
+.main-content .admixture-background,
+.main-content .admixture2-background {
     width: 100%;
     display: inline-block;
     background: url('../images/gene-background.png');
@@ -18,7 +23,8 @@
 
 .main-content .pca-background .pca-part,
 .main-content .fst-background .fst-part,
-.main-content .admixture-background .admixture-part {
+.main-content .admixture-background .admixture-part,
+.main-content .admixture2-background .admixture2-part {
     width: 100%;
     padding: 0 10px;
     padding-bottom: 100px;
@@ -28,7 +34,8 @@
 
 .main-content .pca-background .pca-part .title,
 .main-content .fst-background .fst-part .title,
-.main-content .admixture-background .admixture-part .title {
+.main-content .admixture-background .admixture-part .title,
+.main-content .admixture2-background .admixture2-part .title {
     font-size: 24px;
     color: #bf5640;
     text-align: center;
@@ -41,13 +48,22 @@
     margin: 20px 0;
 }
 
-.main-content .fst-background .fst-part .pop-select {
+.main-content .pca-background .pca-part .area-select,
+.main-content .pca-background .pca-part .area-select-1 {
     width: 100%;
     text-align: right;
 }
 
-.main-content .fst-background .fst-part .pop-select #people {
-    width: 160px;
+.main-content .pca-background .pca-part .area-select {
+    display: none;
+}
+
+.main-content .pca-background .pca-part .area-select-1 {
+    display: block;
+}
+
+.main-content .pca-background .pca-part .area-select #area,
+.main-content .pca-background .pca-part .area-select #area-1 {
     height: 30px;
 }
 
@@ -59,37 +75,60 @@
     margin-right: 5px;
 }
 
+.main-content .fst-background .fst-part #classZ {
+    text-align: center;
+}
+
 .main-content .fst-background .fst-part #classZ span {
     font-size: 14px;
     margin-right: 10px;
 }
 
-#pca,
+#pca1,
+#pca2,
+#pca3,
 #fst,
-#admixture {
+#admixture,
+#admixture2 {
     width: 100%;
     height: 400px;
 }
 
-#admixture {
+#admixture,
+#admixture2 {
     height: 500px;
 }
 
 @media (min-width:768px) {
     .main-content .pca-background .pca-part,
     .main-content .fst-background .fst-part,
-    .main-content .admixture-background .admixture-part {
+    .main-content .admixture-background .admixture-part,
+    .main-content .admixture2-background .admixture2-part {
         padding: 0 40px;
         padding-bottom: 100px;
     }
 }
 
-@media (min-width:992px) {}
+@media (min-width:992px) {
+    #pca1,
+    #pca2,
+    #pca3 {
+        width: 50%;
+        float: left;
+    }
+    .main-content .pca-background .pca-part .area-select {
+        display: block;
+    }
+    .main-content .pca-background .pca-part .area-select-1 {
+        display: none;
+    }
+}
 
 @media (min-width:1200px) {
     .main-content .pca-background .pca-part,
     .main-content .fst-background .fst-part,
-    .main-content .admixture-background .admixture-part {
+    .main-content .admixture-background .admixture-part,
+    .main-content .admixture2-background .admixture2-part {
         width: 1170px;
         margin: 0 auto;
         padding: 0px;

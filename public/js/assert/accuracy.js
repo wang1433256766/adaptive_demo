@@ -126,3 +126,48 @@ var floatObj = function() {
         divide: divide
     }
 }();
+
+//取array 的unique 值。用法  arraryname.unique
+Array.prototype.unique = function() {
+    var res = [];
+    var json = {};
+    for (var i = 0; i < this.length; i++) {
+        if (!json[this[i]]) {
+            res.push(this[i]);
+            json[this[i]] = 1;
+        }
+    }
+    return res;
+};
+//对象数组根据多属性排序
+var sortAnces = function(prop1, prop2) {
+    return function(obj1, obj2) {
+        //prop1
+        var val1 = obj1[prop1];
+        var val2 = obj2[prop1];
+        if (!isNaN(Number(val1)) && !isNaN(Number(val2))) { //1.isNaN() 函数可用于判断其参数是否是 NaN;2.如果对象的值无法转换为数字，那么 Number() 函数返回 NaN。
+            val1 = Number(val1);
+            val2 = Number(val2);
+        }
+        //prop2
+        var val3 = obj1[prop2];
+        var val4 = obj2[prop2];
+        if (!isNaN(Number(val3)) && !isNaN(Number(val4))) { //1.isNaN() 函数可用于判断其参数是否是 NaN;2.如果对象的值无法转换为数字，那么 Number() 函数返回 NaN。
+            val3 = Number(val3);
+            val4 = Number(val4);
+        }
+        if (val1 < val2) {
+            return -1;
+        } else if (val1 > val2) {
+            return 1;
+        } else {
+            if (val3 < val4) {
+                return -1;
+            } else if (val3 > val4) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
+    }
+}
