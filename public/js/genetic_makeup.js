@@ -102,7 +102,7 @@ $(function() {
                 name: 'pop',
                 type: 'map',
                 mapType: 'world',
-                roam: false,
+                roam: true,
                 label: {
                     normal: {
                         show: false
@@ -253,6 +253,21 @@ $(function() {
                     return positionArr;
                 }()
             });
+            admixtureChart.on("geoRoam", function() {
+                admixtureChart.setOption(option);
+                admixtureChart.setOption({
+                    series: function() {
+                        var positionArr = [];
+                        for (var i = 0; i < diffPopPositionArr.length; i++) {
+                            var positionObj = {};
+                            positionObj.name = diffPopPositionArr[i].name;
+                            positionObj.center = admixtureChart.convertToPixel({ seriesIndex: 0 }, [diffPopPositionArr[i].latitude, diffPopPositionArr[i].longitude]);
+                            positionArr.push(positionObj);
+                        }
+                        return positionArr;
+                    }()
+                });
+            })
         })
     })
 
