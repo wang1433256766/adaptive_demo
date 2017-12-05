@@ -253,8 +253,22 @@ $(function() {
                     return positionArr;
                 }()
             });
+            window.addEventListener("resize", function() {
+                admixtureChart.setOption({
+                    series: function() {
+                        var positionArr = [];
+                        for (var i = 0; i < diffPopPositionArr.length; i++) {
+                            var positionObj = {};
+                            positionObj.name = diffPopPositionArr[i].name;
+                            positionObj.center = admixtureChart.convertToPixel({ seriesIndex: 0 }, [diffPopPositionArr[i].latitude, diffPopPositionArr[i].longitude]);
+                            positionArr.push(positionObj);
+                        }
+                        return positionArr;
+                    }()
+                });
+            });
+            //饼图随地图移动
             admixtureChart.on("geoRoam", function() {
-                admixtureChart.setOption(option);
                 admixtureChart.setOption({
                     series: function() {
                         var positionArr = [];
