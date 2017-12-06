@@ -299,6 +299,10 @@ $(function() {
             }
             k_data['k' + (i + 1)] = kn_dataArr;
         };
+        var k0_data = [];
+        for (var a = 0; a < admixture2_data.length; a++) {
+            k0_data.push(0);
+        }
         admixture2Chart.setOption({
             legend: {
                 show: true,
@@ -315,8 +319,8 @@ $(function() {
                 trigger: 'axis',
                 formatter: function(params) {
                     //console.log(params);
-                    var returnVal = params[0].data.sample + "--" + params[0].name + "<br>";
-                    for (var i = 0; i < params.length; i++) {
+                    var returnVal = params[1].data.sample + "--" + params[1].name + "<br>";
+                    for (var i = 1; i < params.length; i++) {
                         if (i == 5 || i == 10 || i == 15) {
                             returnVal += '<br>';
                         }
@@ -326,8 +330,9 @@ $(function() {
                 }
             },
             angleAxis: {
+                show: true,
                 type: 'category',
-                boundaryGap: true,
+                boundaryGap: false,
                 data: function() {
                     var x_data = [];
                     for (var i = 0; i < admixture2_data.length; i++) {
@@ -338,12 +343,14 @@ $(function() {
                 }(),
                 z: 10,
                 axisTick: {
+                    show: false,
                     interval: function(index, name) {
                         console.log(index + '---' + name);
                         return false;
                     }
                 },
                 axisLabel: {
+                    show: true,
                     interval: function(index, name) {
                         console.log(index + '---' + name);
                         return false;
@@ -351,17 +358,22 @@ $(function() {
                 }
             },
             radiusAxis: {
+                show: false,
                 name: 'Proportion',
                 boundaryGap: true,
-                min: '-1',
-                max: 'dataMax'
+                min: -1,
+                max: 1,
+                splitLine: { show: false },
+                axisLabel: { rotate: 60 }
             },
-            polar: {},
-            color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3',
+            polar: {
+                //radius: ['50%', '100%']
+            },
+            color: ['white', '#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3',
                 "#000000", "#000080", "#3CB371", "#FF8C00", "#FF0000", "#6495ED", "#FF1493", "#00BFFF", "cyan"
             ],
             series: function() {
-                var series_data = [];
+                var series_data = [{ name: 'knull', type: 'bar', coordinateSystem: 'polar', stack: 'k', data: k0_data }];
                 for (var i = 0; i < 20; i++) {
                     var series_dataObj = {};
                     series_dataObj.name = 'k' + (i + 1);
