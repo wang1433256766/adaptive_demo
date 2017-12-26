@@ -8,6 +8,7 @@
     <title>Variant</title>
     <link rel="stylesheet" type="text/css" href="../public/font_eh0fpcd88eiv0a4i/iconfont.css">
     <link rel="stylesheet" type="text/css" href="../public/css/nav_footer.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/variant.css">
 </head>
 
 <body>
@@ -35,25 +36,27 @@
                         <li><a href="./ancestry_inference.html">Ancestry-inference</a></li>
                         <li><a href="./comment.html">Comment</a></li>
                     </ul>
-                    <div class="login-self">
-                        <a href="./login.html">Login</a>
-                        <a href="./register.html">Register</a>
-                    </div>
+                    <div class="login-self"></div>
                 </div>
             </div>
         </div>
         <div class="main-content">
-            <ul>
-                <li>variant通过物理位置、突变具体信息、rsid、Ensembl基因、official Genename等几个层次的检索获取突变结果并可视化</li>
-                <li>更多结果链接至PGG.SNV页面</li>
-            </ul>
+            <div class="admixture-background">
+                <div class="admixture-part">
+                    <p class="title">Variant</p>
+                    <div id="admixture"></div>
+                </div>
+            </div>
         </div>
         <div class="footer">
             CAS-MAP Partner Institute for Computational Blology [PGG]. Copyright &copy; 2015-2017
         </div>
     </div>
     <script src="../public/js/assert/jquery.min.js"></script>
+    <script src="../public/js/assert/echarts.min.js"></script>
+    <script src="../public/js/assert/accuracy.js"></script>
     <script src="../public/js/nav.js"></script>
+    <script src="../public/js/variant.js"></script>
 </body>
 
 </html>

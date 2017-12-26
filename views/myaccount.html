@@ -7,43 +7,153 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>MyAccount</title>
     <link rel="stylesheet" type="text/css" href="../public/font_eh0fpcd88eiv0a4i/iconfont.css">
-    <link rel="stylesheet" href="../public/css/nav_footer.css">
-    <link rel="stylesheet" href="../public/css/home.css">
+    <link rel="stylesheet" type="text/css" href="../public/css/nav_footer.css">
+    <link rel="stylesheet" href="../public/css/myaccount.css">
 </head>
 
 <body>
-    <div class="nav-header">
-        <div class="nav-icon">
-            <button id="nav-list" class="nav-list"><i class="iconfont icon-nav"></i></button>
-            <button id="user-list" class="nav-user"><i class="iconfont icon-user"></i></button>
-        </div>
-        <div class="logo">
-            <a href="#"><img src="../public/images/logo.png" alt="logo"></a>
-        </div>
-        <ul class="list-ul">
-            <li><a href="./home.html">Home</a></li>
-            <li><a href="./about.html">About</a></li>
-            <li><a href=".data.html">Data</a></li>
-            <li><a href="http://miaoto.com.cn:8080/" target="_blank">GoToolsToImputation</a></li>
-        </ul>
-        <div class="self-info">
-            <span><a href="./login.html">Login</a></span>&nbsp;|&nbsp;<span><a href="./register.html">Register</a></span>
-        </div>
-        <ul class="user-ul">
-            <li><a href="./login.html">Login</a></li>
-            <li><a href="./register.html">Register</a></li>
-        </ul>
-    </div>
     <div class="wrap">
-
-    </div>
-    <div class="footer">
-        CAS-MAP Partner Institute for Computational Blology [PGG]. Copyright &copy; 2015-2017
-        <iframe style="background:transparent !important;position: fixed;bottom: 0;right: 50px;margin-bottom: 5px;" scrolling="no" frameborder="0" allowtransparency="true" width="30" height="30" src="//ra.revolvermaps.com/w/3/j/a/c2.php?i=0mgppjjkhbt&amp;b=0&amp;s=30&amp;m=0&amp;cl=ffffff&amp;co=004680&amp;cd=d64700&amp;v0=9&amp;v1=90&amp;r=33"></iframe>
+        <div class="nav">
+            <div class="nav-header">
+                <div class="nav-bar">
+                    <img src="../public/images/logo.png" alt="background"><span>HanChineseGemomes</span>
+                    <div class="input-group">
+                        <input type="text" placeholder="Keywords">
+                        <button>Search</button>
+                    </div>
+                </div>
+                <div class="nav-icon">
+                    <button id="toggle-navlist"><i class="iconfont icon-nav"></i></button>
+                </div>
+                <div class="nav-list">
+                    <ul>
+                        <li><a href="./home.html">Home</a></li>
+                        <li><a href="./about.html">About</a></li>
+                        <li><a href="./data.html">Data</a></li>
+                        <li><a href="./imputation.html">Imputation</a></li>
+                        <li><a href="./variant.html">Variant</a></li>
+                        <li><a href="./genetic_makeup.html">Genetic-makeup</a></li>
+                        <li><a href="./ancestry_inference.html">Ancestry-inference</a></li>
+                        <li><a href="./comment.html">Comment</a></li>
+                    </ul>
+                    <div class="login-self"></div>
+                </div>
+            </div>
+        </div>
+        <div class="main-content">
+            <div class="sider-bar">
+                <ul class="tab-bar">
+                    <li class="active-bar"><a>个人中心</a>
+                        <hr class="line">
+                    </li>
+                    <li><a>资料修改</a>
+                        <hr class="line">
+                    </li>
+                    <li><a>密码修改</a>
+                        <hr class="line">
+                    </li>
+                    <li><a>消息通知</a>
+                        <hr class="line">
+                    </li>
+                </ul>
+            </div>
+            <div class="sider-content">
+                <div class="tab-content">
+                    <div class="self-info-view">
+                        <div class="info email-view">
+                            <span>邮箱</span><input type="text" disabled>
+                        </div>
+                        <div class="info username-view">
+                            <span>用户名</span><input type="text" disabled>
+                        </div>
+                        <div class="info institution-view">
+                            <span>机构</span><input type="text" disabled>
+                        </div>
+                        <div class="info address-view">
+                            <span>地址</span><input type="text" disabled>
+                        </div>
+                        <div class="info phone-view">
+                            <span>联系方式</span><input type="text" disabled>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="self-info-edit">
+                        <div class="info email-edit">
+                            <span>邮箱</span><input type="text" disabled>
+                        </div>
+                        <div class="info username-edit">
+                            <span>用户名</span><input type="text">
+                        </div>
+                        <div class="info institution-edit">
+                            <span>机构</span><input type="text">
+                        </div>
+                        <div class="info address-edit">
+                            <span>地址</span><input type="text">
+                        </div>
+                        <div class="info phone-edit">
+                            <span>联系方式</span><input type="text">
+                        </div>
+                        <div class="self-info-submit">
+                            <button>确认修改</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <div class="self-pwd-edit">
+                        <div class="info pwd-email">
+                            <span>邮箱</span><input type="text" disabled>
+                        </div>
+                        <div class="info v-code">
+                            <span>验证码</span><input type="text"><button>获取验证码</button>
+                        </div>
+                        <div class="info pwd-pwd">
+                            <span>新密码</span><input type="password">
+                        </div>
+                        <div class="info pwd-repwd">
+                            <span>确认密码</span><input type="password">
+                        </div>
+                        <div class="self-pwd-submit">
+                            <button>确认修改</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    <ul class="reply-ul">
+                        <!-- <li class="reply-li">
+                            <div class="reply-content">
+                                <span class="reply-headinfo"><span class="reply-author">guoying</span>&nbsp;回复了您的评论:</span>
+                                <span>you can try it!</span>
+                            </div>
+                            <div class="reply-info">
+                                <a class="reply-opt" href="#">reply</a>
+                                <span class="reply-date">2017-12-6</span>
+                            </div>
+                        </li>
+                        <hr style="width:100%;margin:0 auto;opacity: 0.3;">
+                        <li class="reply-li">
+                            <div class="reply-content">
+                                <span class="reply-headinfo"><span class="reply-author">guoying</span>&nbsp;回复了您的评论:</span>
+                                <span>爱上了打开发就!</span>
+                            </div>
+                            <div class="reply-info">
+                                <a class="reply-opt" href="#">reply</a>
+                                <span class="reply-date">2017-12-6</span>
+                            </div>
+                        </li>
+                        <hr style="width:100%;margin:0 auto;opacity: 0.3;"> -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            CAS-MAP Partner Institute for Computational Blology [PGG]. Copyright &copy; 2015-2017
+        </div>
     </div>
     <script src="../public/js/assert/jquery.min.js"></script>
+    <script src="../public/js/assert/accuracy.js"></script>
     <script src="../public/js/nav.js"></script>
-    <script src="../public/js/home.js"></script>
+    <script src="../public/js/myaccount.js"></script>
 </body>
 
 </html>

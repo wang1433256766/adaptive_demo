@@ -1,42 +1,33 @@
-.pager-box:after {
-    display: block;
-    height: 0;
-    visibility: hidden;
-    clear: both;
-    content: '';
-}
-
-.pager {
+#pager ul.pages {
     display: inline-block;
-    font-family: 微软雅黑;
+    border: none;
+    text-transform: uppercase;
+    font-size: 12px;
+    padding: 0;
 }
 
-.pager a,
-.pager span {
-    position: relative;
-    display: block;
+#pager ul.pages li {
+    list-style: none;
     float: left;
-    margin-left: 5px;
-    border: 1px solid #b6bcc1;
-    padding: 5px 10px;
+    border: 1px solid #ccc;
     text-decoration: none;
-    color: #b6bcc1;
-    border-radius: 3px;
+    margin: 0 5px 0 0;
+    padding: 5px 10px;
+    color: #444;
 }
 
-.pager span {
-    border: 0;
+#pager ul.pages li:hover {
+    border: 1px solid #bf5640;
 }
 
-.pager a.js-selected {
-    background: #b6bcc1;
+#pager ul.pages li.pgEmpty {
+    border: 1px solid #eee;
+    color: #eee;
+}
+
+#pager ul.pages li.pgCurrent {
+    border: 1px solid #bf5640;
     color: #fff;
-    cursor: default;
-}
-
-.pager a.js-disabled {
-    background: #f1f1f1;
-    border-color: #f1f1f1;
-    cursor: default;
-    color: #fff;
+    font-weight: 700;
+    background-color: #bf5640;
 }

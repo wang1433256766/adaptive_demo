@@ -1,225 +1,126 @@
-(function(window, undefined) {
+/*
+ * jQuery pager plugin
+ * Version 1.0 (12/22/2008)
+ * @requires jQuery v1.2.6 or later
+ *
+ * Example at: http://jonpauldavies.github.com/JQuery/Pager/PagerDemo.html
+ *
+ * Copyright (c) 2008-2009 Jon Paul Davies
+ * Dual licensed under the MIT and GPL licenses:
+ * http://www.opensource.org/licenses/mit-license.php
+ * http://www.gnu.org/licenses/gpl.html
+ * 
+ * Read the related blog post and contact the author at http://www.j-dee.com/2008/12/22/jquery-pager-plugin/
+ *
+ * This version is far from perfect and doesn't manage it's own state, therefore contributions are more than welcome!
+ *
+ * Usage: .pager({ pagenumber: 1, pagecount: 15, buttonClickCallback: PagerClickTest });
+ *
+ * Where pagenumber is the visible page number
+ *       pagecount is the total number of pages to display
+ *       buttonClickCallback is the method to fire when a pager button is clicked.
+ *
+ * buttonClickCallback signiture is PagerClickTest = function(pageclickednumber) 
+ * Where pageclickednumber is the number of the page clicked in the control.
+ *
+ * The included Pager.CSS file is a dependancy but can obviously tweaked to your wishes
+ * Tested in IE6 IE7 Firefox & Safari. Any browser strangeness, please report.
+ */
+(function($) {
 
-    /**
-     * 创建元素节点并返回
-     */
-    function create(tagName, className, parent) {
-        var element = document.createElement(tagName);
-        element.className = className;
-        parent.appendChild(element);
-        return element;
-    }
+    $.fn.pager = function(options) {
 
-    /**
-     * 数组消除重复
-     */
-    function clearRepeat(arr) {
-        var obj = {},
-            result = [];
-        for (var i = 0, len = arr.length; i < len; i++) {
-            obj[arr[i]] = 1;
-        }
-        for (var i in obj) {
-            result.push(i);
-        }
-        return result;
-    }
+        var opts = $.extend({}, $.fn.pager.defaults, options);
 
-    /**
-     * 添加类名
-     */
-    function addClassName(element, className) {
-        var aClass = element.className.split(' ');
-        aClass.push(className);
-        aClass = clearRepeat(aClass);
-        element.className = aClass.join(' ');
-    }
-    /**
-     * 删除类名
-     */
-    function delClassName(element, className) {
-        var aClass = element.className.split(' '),
-            index = aClass.indexOf(className);
-        if (index > 0) aClass.splice(index, 1);
-        element.className = aClass.join(' ');
-    }
+        return this.each(function() {
 
-    /**
-     * 检查是否含有类名
-     * @param element
-     * @param className
-     * @returns {boolean}
-     */
-    function hasClassName(element, className) {
-        var aClass = element.className.split(' '),
-            index = aClass.indexOf(className);
-        if (index > 0) return true;
-        return false;
-    }
+            // empty out the destination element and then render out the pager with the supplied options
+            $(this).empty().append(renderpager(parseInt(options.pagenumber), parseInt(options.pagecount), options.buttonClickCallback));
 
-    var Pager = function(obj) {
-
-        this.__total = obj.total || 1;
-        this.__index = obj.index || 1;
-        this.__parent = obj.parent;
-        this.__onchange = obj.onchange;
-        //初始化分页器
-        this.__init(obj);
-
+            // specify correct cursor activity
+            $('.pages li').mouseover(function() { document.body.style.cursor = "pointer"; }).mouseout(function() { document.body.style.cursor = "auto"; });
+        });
     };
 
-    var pro = Pager.prototype;
-    /**
-     * 初始化分页器
-     */
-    pro.__init = function(obj) {
-        if (this.__total < this.__index) return;
-        //存储数字
-        this.__numbers = [];
-        //储存省略号
-        this.__dots = [];
-        this.__wrapper = create('div', 'pager-box', this.__parent);
-        this.__body = create('div', 'pager', this.__wrapper);
-        //存储上一页
-        this.__preBtn = create('a', 'prev', this.__body);
-        this.__preBtn.href = 'javascript:void(0);';
-        this.__preBtn.innerText = (obj.label && obj.label.prev) || '上一页';
-        //存储数字
-        if (this.__total < 8) {
-            for (var i = 0; i < this.__total; i++) {
-                var t = create('a', 'number', this.__body);
-                t.href = 'javascript:void(0);';
-                t.innerText = i + 1;
-                this.__numbers.push(t);
-            }
+    // render and return the pager with the supplied options
+    function renderpager(pagenumber, pagecount, buttonClickCallback) {
+
+        // setup $pager to hold render
+        var $pager = $('<ul class="pages"></ul>');
+
+        // add in the previous and next buttons
+        $pager.append(renderButton('first', pagenumber, pagecount, buttonClickCallback)).append(renderButton('prev', pagenumber, pagecount, buttonClickCallback));
+
+        // pager currently only handles 10 viewable pages ( could be easily parameterized, maybe in next version ) so handle edge cases
+        var startPoint = 1;
+        var endPoint = 9;
+
+        if (pagenumber > 4) {
+            startPoint = pagenumber - 4;
+            endPoint = pagenumber + 4;
+        }
+
+        if (endPoint > pagecount) {
+            startPoint = pagecount - 8;
+            endPoint = pagecount;
+        }
+
+        if (startPoint < 1) {
+            startPoint = 1;
+        }
+
+        // loop thru visible pages and render buttons
+        for (var page = startPoint; page <= endPoint; page++) {
+
+            var currentButton = $('<li class="page-number">' + (page) + '</li>');
+
+            page == pagenumber ? currentButton.addClass('pgCurrent') : currentButton.click(function() { buttonClickCallback(this.firstChild.data); });
+            currentButton.appendTo($pager);
+        }
+
+        // render in the next and last buttons before returning the whole rendered control back.
+        $pager.append(renderButton('next', pagenumber, pagecount, buttonClickCallback)).append(renderButton('last', pagenumber, pagecount, buttonClickCallback));
+
+        return $pager;
+    }
+
+    // renders and returns a 'specialized' button, ie 'next', 'previous' etc. rather than a page number button
+    function renderButton(buttonLabel, pagenumber, pagecount, buttonClickCallback) {
+
+        var $Button = $('<li class="pgNext">' + buttonLabel + '</li>');
+
+        var destPage = 1;
+
+        // work out destination page for required button type
+        switch (buttonLabel) {
+            case "first":
+                destPage = 1;
+                break;
+            case "prev":
+                destPage = pagenumber - 1;
+                break;
+            case "next":
+                destPage = pagenumber + 1;
+                break;
+            case "last":
+                destPage = pagecount;
+                break;
+        }
+
+        // disable and 'grey' out buttons if not needed.
+        if (buttonLabel == "first" || buttonLabel == "prev") {
+            pagenumber <= 1 ? $Button.addClass('pgEmpty') : $Button.click(function() { buttonClickCallback(destPage); });
         } else {
-            for (var i = 0; i < 2; i++) {
-                var t = create('span', 'dots', this.__body);
-                t.innerText = '...';
-                this.__dots.push(t);
-            };
-            for (var i = 0; i < 7; i++) {
-                var t = create('a', 'number', this.__body);
-                t.href = 'javascript:void(0);';
-                this.__numbers.push(t);
-            }
-
-        }
-        //存储下一页
-        this.__nextBtn = create('a', 'next', this.__body);
-        this.__nextBtn.href = 'javascript:void(0);';
-        this.__nextBtn.innerText = (obj.label && obj.label.next) || '下一页';
-        //
-        this._$setIndex(this.__index);
-        //
-        this.__body.onclick = this.__doClick.bind(this);
-    };
-
-    pro.__doClick = function(e) {
-        var e = e || window.event,
-            target = e.target || e.srcElement;
-        //点击省略号
-        if (target.tagName.toLowerCase() == 'span') return;
-        //点击了不能点击的上一页或者下一页
-        if (hasClassName(target, 'js-disabled')) return;
-        //点击了当前页
-        if (hasClassName(target, 'js-selected')) return;
-
-        if (target == this.__preBtn) {
-            //点击了上一页
-            this._$setIndex(this.__index - 1);
-        } else if (target == this.__nextBtn) {
-            //点击了下一页
-            this._$setIndex(this.__index + 1);
-        } else {
-            //点击了数字
-            var index = target.innerText;
-            this._$setIndex(index);
+            pagenumber >= pagecount ? $Button.addClass('pgEmpty') : $Button.click(function() { buttonClickCallback(destPage); });
         }
 
+        return $Button;
+    }
+
+    // pager defaults. hardly worth bothering with in this case but used as placeholder for expansion in the next version
+    $.fn.pager.defaults = {
+        pagenumber: 1,
+        pagecount: 1
     };
 
-    /**
-     * 跳转页数
-     */
-    pro._$setIndex = function(index) {
-
-        index = parseInt(index);
-        //更新信息
-        if (index != this.__index) {
-            this.__last = this.__index;
-            this.__index = index;
-        }
-        //处理
-        delClassName(this.__preBtn, 'js-disabled');
-        delClassName(this.__nextBtn, 'js-disabled');
-        if (this.__total < 8) {
-            //总页数小于8的情况
-            if (this.__last) delClassName(this.__numbers[this.__last - 1], 'js-selected');
-            addClassName(this.__numbers[this.__index - 1], 'js-selected');
-            if (this.__index == 1) addClassName(this.__preBtn, 'js-disabled');
-            if (this.__index == this.__total) addClassName(this.__nextBtn, 'js-disabled');
-
-        } else {
-            this.__dots[0].style.display = 'none';
-            this.__dots[1].style.display = 'none';
-            for (var i = 0; i < 7; i++) {
-                delClassName(this.__numbers[i], 'js-selected');
-            };
-            if (this.__index < 5) {
-                for (var i = 0; i < 6; i++) {
-                    this.__numbers[i].innerText = i + 1;
-                }
-                this.__numbers[6].innerText = this.__total;
-                this.__dots[1].style.display = 'block';
-                this.__body.insertBefore(this.__dots[1], this.__numbers[6]);
-                addClassName(this.__numbers[this.__index - 1], 'js-selected');
-                if (this.__index == 1) addClassName(this.__preBtn, 'js-disabled');
-            } else if (this.__index > this.__total - 4) {
-                for (var i = 1; i < 7; i++) {
-                    this.__numbers[i].innerText = this.__total + i - 6;
-                }
-                this.__numbers[0].innerText = '1';
-                this.__dots[0].style.display = 'block';
-                this.__body.insertBefore(this.__dots[0], this.__numbers[1]);
-                addClassName(this.__numbers[this.__index + 6 - this.__total], 'js-selected');
-                if (this.__index == this.__total) addClassName(this.__nextBtn, 'js-disabled');
-            } else {
-                this.__numbers[0].innerText = '1';
-                for (var i = 1; i < 6; i++) {
-                    this.__numbers[i].innerText = this.__index - 3 + i;
-                    if (i == 3) addClassName(this.__numbers[i], 'js-selected');
-                }
-                this.__numbers[6].innerText = this.__total;
-                this.__dots[0].style.display = 'block';
-                this.__body.insertBefore(this.__dots[0], this.__numbers[1]);
-                this.__dots[1].style.display = 'block';
-                this.__body.insertBefore(this.__dots[1], this.__numbers[6]);
-            }
-
-        }
-        if (typeof this.__onchange == 'function') {
-            this.__onchange({
-                index: this.__index,
-                last: this.__last,
-                total: this.__total
-            })
-        }
-
-    };
-    /**
-     * 得到总页数
-     */
-    pro._$getIndex = function() {
-        return this.__index;
-    };
-    /**
-     * 得到上一个页数
-     */
-    pro._$getLast = function() {
-        return this.__last;
-    };
-    //变成全局
-    window.Pager = Pager;
-
-})(window);
+})(jQuery);

@@ -1,115 +1,117 @@
 $(function() {
-    $("#submit").click(function() {
-        window.location.href = './home.html';
+    var user = $(".login-name input");
+
+    var pwd = $(".login-pwd input");
+
+    var checkEmail = $(".check-name");
+
+    var checkPwd = $(".check-pwd");
+
+    var myreg = /^([\.a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/; //邮箱正则
+
+    //console.log(pwd.val());
+    // if(pwd.val().trim().length>5){
+    // 	checkPwd.html('');
+    // }
+
+    //邮箱校验
+    user.bind('blur', function() {
+        if (user.val().trim().length > 0) {
+            if (!myreg.test(user.val())) {
+                checkEmail.html('Please enter a valid email！');
+            } else {
+                checkEmail.html('');
+            }
+        }
     })
-    particlesJS("particles-js", {
-        "particles": {
-            "number": {
-                "value": 20, //点的数量
-                "density": { //密度
-                    "enable": true,
-                    "value_area": 800
-                }
-            },
-            "color": {
-                "value": "#dedede" //中心圆的颜色
-            },
-            "shape": {
-                "type": "circle",
-                "stroke": {
-                    "width": 20, //圆外边框的宽度
-                    "color": "#dedede" //圆外边框的颜色
-                },
-                "polygon": { //多边形
-                    "nb_sides": 10
-                },
-                "image": {
-                    "src": "img/github.svg",
-                    "width": 100,
-                    "height": 100
-                }
-            },
-            "opacity": { //透明度
-                "value": 0.5,
-                "random": false, //随机的
-                "anim": { //生动的
-                    "enable": false,
-                    "speed": 1,
-                    "opacity_min": 0.1,
-                    "sync": false
-                }
-            },
-            "size": {
-                "value": 3,
-                "random": true,
-                "anim": {
-                    "enable": false,
-                    "speed": 40,
-                    "size_min": 0.1,
-                    "sync": false
-                }
-            },
-            "line_linked": {
-                "enable": true,
-                "distance": 200, //线长度
-                "color": "#999999", //显得颜色
-                "opacity": 0.6,
-                "width": 1
-            },
-            "move": {
-                "enable": true,
-                "speed": 2, //运行速度
-                "direction": "none",
-                "random": false,
-                "straight": false,
-                "out_mode": "out",
-                "bounce": false,
-                "attract": {
-                    "enable": false,
-                    "rotateX": 600,
-                    "rotateY": 1200
-                }
+
+    //密码校验
+    pwd.bind('blur', function() {
+        if (pwd.val().trim().length > 5) {
+            checkPwd.html('');
+        }
+    })
+
+    //$("#submit").attr('disabled', false);
+
+
+    // var from = $.getUrlParam('from');
+
+    $("#submit").click(function() {
+        var flag = true;
+        //邮箱校验
+        //user.bind('input propertychange', function(){
+        if (user.val().trim().length > 0) {
+            if (!myreg.test(user.val())) {
+                checkEmail.html('Please enter a valid email！');
+                flag = false;
+            } else {
+                checkEmail.html('');
             }
-        },
-        "interactivity": {
-            "detect_on": "canvas",
-            "events": {
-                "onhover": {
-                    "enable": true,
-                    "mode": "grab"
-                },
-                "onclick": {
-                    "enable": true,
-                    "mode": "push"
-                },
-                "resize": true
+        } else {
+            checkEmail.html('Please fill in the login email');
+            flag = false;
+        }
+        //})
+
+        //密码校验
+        //pwd.bind('input propertychange', function(){
+        if (pwd.val().trim().length > 5) {
+            checkPwd.html('');
+        } else {
+            checkPwd.html('Please fill out six or more passwords');
+            flag = false;
+        }
+        //})
+        if (flag == false) {
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: URI_DOMAIN + "/auth/login",
+            dataType: 'json',
+            xhrFields: {
+                withCredentials: true
             },
-            "modes": {
-                "grab": {
-                    "distance": 140,
-                    "line_linked": {
-                        "opacity": 1
+            data: { email: user.val(), pwd: pwd.val() },
+            success: function(data) {
+                // console.log(data);
+                // return false;
+                if (data.status == 1) { //success relocation
+                    if (data.content && data.content != '/favicon.ico') {
+                        window.location.href = data.content;
+                    } else {
+                        window.location.href = "./home.html";
                     }
-                },
-                "bubble": {
-                    "distance": 400,
-                    "size": 40,
-                    "duration": 2,
-                    "opacity": 8,
-                    "speed": 3
-                },
-                "repulse": {
-                    "distance": 200,
-                    "duration": 0.4
-                },
-                "push": {
-                    "particles_nb": 4
-                },
-                "remove": {
-                    "particles_nb": 2
+                } else {
+                    alert(data.msg);
                 }
             }
-        },
-        "retina_detect": true
+        });
     });
+
+    //回车登录
+    $("body").keydown(function(event) {
+        if (event.keyCode == "13") { //keyCode=13是回车键
+            $('#submit').click();
+        }
+    });
+
+    //激活邮箱
+    $("#activeEmail").click(function() {
+        if (user.val().trim().length <= 0) {
+            alert('Please fill in the email of needing to active');
+            return false;
+        }
+        $.ajax({
+            type: 'POST',
+            url: URI_DOMAIN + '/auth/reactive',
+            dataType: 'json',
+            data: { email: user.val() },
+            success: function(res) {
+                alert(res.msg);
+            }
+        })
+    })
 })

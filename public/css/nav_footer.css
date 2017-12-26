@@ -11,6 +11,14 @@ body {
     font-family: Helvetica, 'Arial', sans-serif;
 }
 
+
+/* sup {
+    background: red;
+    color: white;
+    border-radius: 12px;
+    padding: 4px;
+} */
+
 input::-webkit-input-placeholder {
     /* WebKit browsers*/
     color: #999;
@@ -177,6 +185,7 @@ input:-ms-input-placeholder {
     }
     .nav .nav-list .login-self a {
         display: inline-block;
+        cursor: pointer;
     }
     .main-content {
         padding-bottom: 80px;

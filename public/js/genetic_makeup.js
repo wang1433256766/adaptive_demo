@@ -14,12 +14,14 @@ admixture2Chart.showLoading();
 $(function() {
     /**
      * pca (pca1,pca2,pca3)
+     * ../public/js/json/pca.json
      */
-    $.get('../public/js/json/pca.json', function(item) {
+    $.get(URI_DOMAIN + '/pop/pca?popid=POP00076', function(item) {
         myChartPca1.hideLoading();
         myChartPca2.hideLoading();
         myChartPca3.hideLoading();
-        var pca_data = eval('(' + item.content + ')');
+        //var pca_data = eval('(' + item.data + ')');
+        var pca_data = item.data;
         $("#area").find('option').eq(0).text(pca_data.pca2[0].title);
         $("#area").find('option').eq(1).text(pca_data.pca3[0].title);
         $("#area-1").find('option').eq(0).text(pca_data.pca2[0].title);
@@ -60,10 +62,11 @@ $(function() {
     });
     /**
      * fst
+     * '../public/js/json/fst.json'
      */
-    $.get('../public/js/json/fst.json', function(item) {
+    $.get(URI_DOMAIN + '/pop/fst?popid=POP00076', function(item) {
         myChartFst.hideLoading();
-        var fst_data = eval('(' + item.content + ')');
+        var fst_data = item.data;
         //console.log(fst_data);
         //定义颜色数组
         var ancesColor = ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3'];
@@ -72,6 +75,7 @@ $(function() {
     });
     /**
      * admixture
+     * '../public/js/json/admixtrue.json'
      */
     $.get('../public/js/json/world.json', function(worldJson) {
         echarts.registerMap('world', worldJson);
@@ -80,314 +84,62 @@ $(function() {
          * 群体的位置根据群体经纬度设置，群体成分由群体中包含的个体的成分的平均值得来
          * 思路：先从数据中筛选出所有群体，再算出每个群体对应成分的值
          */
-        $.get('../public/js/json/admixtrue.json', function(item) {
+        $.get(URI_DOMAIN + '/pop/admixture?popid=POP00076&k=5', function(item) {
             admixtureChart.hideLoading();
-            var admix_data = eval('(' + item.content + ')');
-            admix_data.sort(sortAnces("name", "indiv_name"));
-            //console.log(admix_data);
-            var diffPopArr = [];
-            var diffPopPositionArr = [];
-            //将不同的群体提取出来
-            for (var i = 0; i < admix_data.length; i++) {
-                if (diffPopArr.indexOf(admix_data[i].name) == -1) {
-                    var diffPopPositionObj = {};
-                    diffPopArr.push(admix_data[i].name);
-                    diffPopPositionObj.name = admix_data[i].name;
-                    diffPopPositionObj.latitude = admix_data[i].latitude;
-                    diffPopPositionObj.longitude = admix_data[i].longitude;
-                    diffPopPositionArr.push(diffPopPositionObj);
+            var admix_data = item.data;
+            loadDiffKGeoAdmixtrue(admix_data, 5);
+        })
+    })
+
+    $("#geoPiewhichK").change(function() {
+        admixtureChart.showLoading();
+        var whichk = $("#geoPiewhichK option:selected").text();
+        $.get('../public/js/json/world.json', function(worldJson) {
+            echarts.registerMap('world', worldJson);
+            /**
+             * 群体的大概位置分布，以及群体中各成分占比
+             * 群体的位置根据群体经纬度设置，群体成分由群体中包含的个体的成分的平均值得来
+             * 思路：先从数据中筛选出所有群体，再算出每个群体对应成分的值
+             */
+            $.ajax({
+                type: 'GET',
+                url: URI_DOMAIN + '/pop/admixture',
+                dataType: 'json',
+                data: { popid: 'POP00076', k: whichk },
+                success: function(res) {
+                    admixtureChart.hideLoading();
+                    loadDiffKGeoAdmixtrue(res.data, whichk);
                 }
-            };
-            var seriesArr = [{
-                name: 'pop',
-                type: 'map',
-                mapType: 'world',
-                roam: true,
-                label: {
-                    normal: {
-                        show: false
-                    }
-                },
-                //world-map下的个群体name
-                data: function() {
-                    var popNameArr = [];
-                    for (var i = 0; i < diffPopArr.length; i++) {
-                        var popNameObj = {};
-                        popNameObj.name = diffPopArr[i];
-                        popNameArr.push(popNameObj);
-                    }
-                    return popNameArr;
-                }()
-            }];
-            //每个群体的成分占比
-            for (var j = 0; j < diffPopArr.length; j++) {
-                var seriesObj = {};
-                seriesObj.name = diffPopArr[j];
-                seriesObj.type = 'pie';
-                seriesObj.radius = '10%';
-                seriesObj.center = [];
-                seriesObj.data = function() { //各群体所包含的成分(k1~k20)
-                    var resArr = []; //[{name:k1,value:'0.00987'}]
-                    var count = 0; //某群体中的个体数量
-                    var k1_totalVal = 0,
-                        k2_totalVal = 0,
-                        k3_totalVal = 0,
-                        k4_totalVal = 0,
-                        k5_totalVal = 0,
-                        k6_totalVal = 0,
-                        k7_totalVal = 0,
-                        k8_totalVal = 0,
-                        k9_totalVal = 0,
-                        k10_totalVal = 0,
-                        k11_totalVal = 0,
-                        k12_totalVal = 0,
-                        k13_totalVal = 0,
-                        k14_totalVal = 0,
-                        k15_totalVal = 0,
-                        k16_totalVal = 0,
-                        k17_totalVal = 0,
-                        k18_totalVal = 0,
-                        k19_totalVal = 0,
-                        k20_totalVal = 0
-                    for (var k = 0; k < admix_data.length; k++) {
-                        if (diffPopArr[j] == admix_data[k].name) {
-                            count++;
-                            k1_totalVal = floatObj.add(k1_totalVal, admix_data[k].k1);
-                            k2_totalVal = floatObj.add(k2_totalVal, admix_data[k].k2);
-                            k3_totalVal = floatObj.add(k3_totalVal, admix_data[k].k3);
-                            k4_totalVal = floatObj.add(k4_totalVal, admix_data[k].k4);
-                            k5_totalVal = floatObj.add(k5_totalVal, admix_data[k].k5);
-                            k6_totalVal = floatObj.add(k6_totalVal, admix_data[k].k6);
-                            k7_totalVal = floatObj.add(k7_totalVal, admix_data[k].k7);
-                            k8_totalVal = floatObj.add(k8_totalVal, admix_data[k].k8);
-                            k9_totalVal = floatObj.add(k9_totalVal, admix_data[k].k9);
-                            k10_totalVal = floatObj.add(k10_totalVal, admix_data[k].k10);
-                            k11_totalVal = floatObj.add(k11_totalVal, admix_data[k].k11);
-                            k12_totalVal = floatObj.add(k12_totalVal, admix_data[k].k12);
-                            k13_totalVal = floatObj.add(k13_totalVal, admix_data[k].k13);
-                            k14_totalVal = floatObj.add(k14_totalVal, admix_data[k].k14);
-                            k15_totalVal = floatObj.add(k15_totalVal, admix_data[k].k15);
-                            k16_totalVal = floatObj.add(k16_totalVal, admix_data[k].k16);
-                            k17_totalVal = floatObj.add(k17_totalVal, admix_data[k].k17);
-                            k18_totalVal = floatObj.add(k18_totalVal, admix_data[k].k18);
-                            k19_totalVal = floatObj.add(k19_totalVal, admix_data[k].k19);
-                            k20_totalVal = floatObj.add(k20_totalVal, admix_data[k].k20);
-                        }
-                    }
-                    for (var n = 1; n <= 20; n++) {
-                        var resObj = {};
-                        resObj.name = 'k' + n;
-                        if (n == 1) {
-                            resObj.value = floatObj.divide(k1_totalVal, count);
-                        } else if (n == 2) {
-                            resObj.value = floatObj.divide(k2_totalVal, count);
-                        } else if (n == 3) {
-                            resObj.value = floatObj.divide(k3_totalVal, count);
-                        } else if (n == 4) {
-                            resObj.value = floatObj.divide(k4_totalVal, count);
-                        } else if (n == 5) {
-                            resObj.value = floatObj.divide(k5_totalVal, count);
-                        } else if (n == 6) {
-                            resObj.value = floatObj.divide(k6_totalVal, count);
-                        } else if (n == 7) {
-                            resObj.value = floatObj.divide(k7_totalVal, count);
-                        } else if (n == 8) {
-                            resObj.value = floatObj.divide(k8_totalVal, count);
-                        } else if (n == 9) {
-                            resObj.value = floatObj.divide(k9_totalVal, count);
-                        } else if (n == 10) {
-                            resObj.value = floatObj.divide(k10_totalVal, count);
-                        } else if (n == 11) {
-                            resObj.value = floatObj.divide(k11_totalVal, count);
-                        } else if (n == 12) {
-                            resObj.value = floatObj.divide(k12_totalVal, count);
-                        } else if (n == 13) {
-                            resObj.value = floatObj.divide(k13_totalVal, count);
-                        } else if (n == 14) {
-                            resObj.value = floatObj.divide(k14_totalVal, count);
-                        } else if (n == 15) {
-                            resObj.value = floatObj.divide(k15_totalVal, count);
-                        } else if (n == 16) {
-                            resObj.value = floatObj.divide(k16_totalVal, count);
-                        } else if (n == 17) {
-                            resObj.value = floatObj.divide(k17_totalVal, count);
-                        } else if (n == 18) {
-                            resObj.value = floatObj.divide(k18_totalVal, count);
-                        } else if (n == 19) {
-                            resObj.value = floatObj.divide(k19_totalVal, count);
-                        } else if (n == 20) {
-                            resObj.value = floatObj.divide(k20_totalVal, count);
-                        }
-                        resArr.push(resObj);
-                    }
-                    return resArr;
-                }();
-                seriesArr.push(seriesObj);
-            }
-            var option = {
-                //backgroundColor: 'white',
-                tooltip: {
-                    trigger: 'item'
-                },
-                visualMap: {
-                    show: false,
-                    min: 0,
-                    max: 1,
-                    left: 'left',
-                    text: ['高', '低'],
-                    calculable: true,
-                    color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3', '#ff3333', 'orange', 'yellow', 'lime', 'aqua']
-                },
-                series: seriesArr
-            }
-            admixtureChart.setOption(option);
-            admixtureChart.setOption({
-                series: function() {
-                    var positionArr = [];
-                    for (var i = 0; i < diffPopPositionArr.length; i++) {
-                        var positionObj = {};
-                        positionObj.name = diffPopPositionArr[i].name;
-                        positionObj.center = admixtureChart.convertToPixel({ seriesIndex: 0 }, [diffPopPositionArr[i].latitude, diffPopPositionArr[i].longitude]);
-                        positionArr.push(positionObj);
-                    }
-                    return positionArr;
-                }()
-            });
-            window.addEventListener("resize", function() {
-                admixtureChart.setOption({
-                    series: function() {
-                        var positionArr = [];
-                        for (var i = 0; i < diffPopPositionArr.length; i++) {
-                            var positionObj = {};
-                            positionObj.name = diffPopPositionArr[i].name;
-                            positionObj.center = admixtureChart.convertToPixel({ seriesIndex: 0 }, [diffPopPositionArr[i].latitude, diffPopPositionArr[i].longitude]);
-                            positionArr.push(positionObj);
-                        }
-                        return positionArr;
-                    }()
-                });
-            });
-            //饼图随地图移动
-            admixtureChart.on("geoRoam", function() {
-                admixtureChart.setOption({
-                    series: function() {
-                        var positionArr = [];
-                        for (var i = 0; i < diffPopPositionArr.length; i++) {
-                            var positionObj = {};
-                            positionObj.name = diffPopPositionArr[i].name;
-                            positionObj.center = admixtureChart.convertToPixel({ seriesIndex: 0 }, [diffPopPositionArr[i].latitude, diffPopPositionArr[i].longitude]);
-                            positionArr.push(positionObj);
-                        }
-                        return positionArr;
-                    }()
-                });
             })
         })
+
     })
 
     /**
      * admixture2
+     * '../public/js/json/admixture_han.json'
      */
-    $.get('../public/js/json/admixture_han.json', function(item) {
+    $.get(URI_DOMAIN + '/pop/admixture?popid=POP00076&k=5', function(item) {
         admixture2Chart.hideLoading();
-        var admixture2_data = eval('(' + item.content + ')');
-        var k_data = {};
-        for (var i = 0; i < 20; i++) {
-            var kn_dataArr = [];
-            for (var j = 0; j < admixture2_data.length; j++) {
-                kn_dataArr.push({ value: admixture2_data[j]['k' + (i + 1)], sample: admixture2_data[j].indiv_name });
-            }
-            k_data['k' + (i + 1)] = kn_dataArr;
-        };
-        var k0_data = [];
-        for (var a = 0; a < admixture2_data.length; a++) {
-            k0_data.push(0);
-        }
-        admixture2Chart.setOption({
-            legend: {
-                show: true,
-                data: function() {
-                    var legend_data = [];
-                    for (var i = 0; i < 20; i++) {
-                        legend_data.push('k' + (i + 1));
-                    }
-                    return legend_data;
-                }()
-            },
-            tooltip: {
-                show: true,
-                trigger: 'axis',
-                formatter: function(params) {
-                    //console.log(params);
-                    var returnVal = params[1].data.sample + "--" + params[1].name + "<br>";
-                    for (var i = 1; i < params.length; i++) {
-                        if (i == 5 || i == 10 || i == 15) {
-                            returnVal += '<br>';
-                        }
-                        returnVal += params[i].seriesName + " : " + params[i].value + ";&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
-                    }
-                    return returnVal;
-                }
-            },
-            angleAxis: {
-                show: true,
-                type: 'category',
-                boundaryGap: false,
-                data: function() {
-                    var x_data = [];
-                    for (var i = 0; i < admixture2_data.length; i++) {
-                        x_data.push(admixture2_data[i].name);
-                    }
-                    //console.log(x_data.unique());
-                    return x_data;
-                }(),
-                z: 10,
-                axisTick: {
-                    show: false,
-                    interval: function(index, name) {
-                        console.log(index + '---' + name);
-                        return false;
-                    }
-                },
-                axisLabel: {
-                    show: true,
-                    interval: function(index, name) {
-                        console.log(index + '---' + name);
-                        return false;
-                    }
-                }
-            },
-            radiusAxis: {
-                show: false,
-                name: 'Proportion',
-                boundaryGap: true,
-                min: -1,
-                max: 1,
-                splitLine: { show: false },
-                axisLabel: { rotate: 60 }
-            },
-            polar: {
-                //radius: ['50%', '100%']
-            },
-            color: ['white', '#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3',
-                "#000000", "#000080", "#3CB371", "#FF8C00", "#FF0000", "#6495ED", "#FF1493", "#00BFFF", "cyan"
-            ],
-            series: function() {
-                var series_data = [{ name: 'knull', type: 'bar', coordinateSystem: 'polar', stack: 'k', data: k0_data }];
-                for (var i = 0; i < 20; i++) {
-                    var series_dataObj = {};
-                    series_dataObj.name = 'k' + (i + 1);
-                    series_dataObj.type = 'bar';
-                    series_dataObj.coordinateSystem = 'polar';
-                    series_dataObj.stack = 'k';
-                    series_dataObj.data = k_data['k' + (i + 1)];
-                    series_data.push(series_dataObj);
-                }
-                return series_data;
-            }()
-        })
-
+        var admixture2_data = item.data;
+        //console.log(admixture2_data);
+        loadDiffKAdmixtrue(admixture2_data, 5);
     });
+
+    $("#whichK").change(function() {
+        admixture2Chart.showLoading();
+        var whichk = $("#whichK option:selected").text();
+        $.ajax({
+            type: 'GET',
+            url: URI_DOMAIN + '/pop/admixture',
+            dataType: 'json',
+            data: { popid: 'POP00076', k: whichk },
+            success: function(res) {
+                admixture2Chart.hideLoading();
+                loadDiffKAdmixtrue(res.data, whichk);
+            }
+        })
+    })
 
     window.addEventListener("resize", function() {
         myChartPca1.resize();
@@ -423,7 +175,7 @@ function getPcaDataById(res, pcaindex) {
                 for (var i = 0; i < pca.length; i++) {
                     if (pca[i].ancestry == ances[a]) {
                         if (pca[i].name != tagpop) {
-                            var oneind = [pca[i].pc1, pca[i].pc2, pca[i].indiv_name, pca[i].name, pca[i].ancestry];
+                            var oneind = [pca[i].pc1, pca[i].pc2, pca[i].indivName, pca[i].name, pca[i].ancestry];
                             data.push(oneind);
                         }
                     }
@@ -434,7 +186,7 @@ function getPcaDataById(res, pcaindex) {
             var data_pop = [];
             for (var i = 0; i < pca.length; i++) {
                 if (pca[i].name == tagpop) {
-                    var onepop = [pca[i].pc1, pca[i].pc2, pca[i].indiv_name, pca[i].name, pca[i].ancestry];
+                    var onepop = [pca[i].pc1, pca[i].pc2, pca[i].indivName, pca[i].name, pca[i].ancestry];
                     data_pop.push(onepop);
                 }
             }
@@ -448,7 +200,7 @@ function getPcaDataById(res, pcaindex) {
                 var data = [];
                 for (var i = 0; i < pca.length; i++) {
                     if (pca[i].name == pops[a]) {
-                        var oneind = [pca[i].pc1, pca[i].pc2, pca[i].indiv_name, pca[i].name, pca[i].ancestry];
+                        var oneind = [pca[i].pc1, pca[i].pc2, pca[i].indivName, pca[i].name, pca[i].ancestry];
                         data.push(oneind);
                     }
                 }
@@ -868,6 +620,315 @@ function loadEcharts(personArr) {
             }
         }]
     });
+}
+
+function loadDiffKGeoAdmixtrue(admix_data, whichk) {
+    admix_data.sort(sortAnces("name", "indivName"));
+    var diffPopArr = [];
+    var diffPopPositionArr = [];
+    //将不同的群体提取出来
+    for (var i = 0; i < admix_data.length; i++) {
+        if (diffPopArr.indexOf(admix_data[i].name) == -1) {
+            var diffPopPositionObj = {};
+            diffPopArr.push(admix_data[i].name);
+            diffPopPositionObj.name = admix_data[i].name;
+            diffPopPositionObj.latitude = admix_data[i].latitude;
+            diffPopPositionObj.longitude = admix_data[i].longitude;
+            diffPopPositionArr.push(diffPopPositionObj);
+        }
+    };
+    var seriesArr = [{
+        name: 'pop',
+        type: 'map',
+        mapType: 'world',
+        roam: true,
+        label: {
+            normal: {
+                show: false
+            }
+        },
+        //world-map下的个群体name
+        data: function() {
+            var popNameArr = [];
+            for (var i = 0; i < diffPopArr.length; i++) {
+                var popNameObj = {};
+                popNameObj.name = diffPopArr[i];
+                popNameArr.push(popNameObj);
+            }
+            return popNameArr;
+        }()
+    }];
+    //每个群体的成分占比
+    for (var j = 0; j < diffPopArr.length; j++) {
+        var seriesObj = {};
+        seriesObj.name = diffPopArr[j];
+        seriesObj.type = 'pie';
+        seriesObj.radius = '5%';
+        seriesObj.center = [];
+        seriesObj.label = { normal: { show: false } };
+        seriesObj.labelLine = { normal: { show: false } };
+        seriesObj.data = function() { //各群体所包含的成分(k1~k20)
+            var resArr = []; //[{name:k1,value:'0.00987'}]
+            var count = 0; //某群体中的个体数量
+            var k1_totalVal = 0,
+                k2_totalVal = 0,
+                k3_totalVal = 0,
+                k4_totalVal = 0,
+                k5_totalVal = 0,
+                k6_totalVal = 0,
+                k7_totalVal = 0,
+                k8_totalVal = 0,
+                k9_totalVal = 0,
+                k10_totalVal = 0,
+                k11_totalVal = 0,
+                k12_totalVal = 0,
+                k13_totalVal = 0,
+                k14_totalVal = 0,
+                k15_totalVal = 0,
+                k16_totalVal = 0,
+                k17_totalVal = 0,
+                k18_totalVal = 0,
+                k19_totalVal = 0,
+                k20_totalVal = 0;
+            for (var k = 0; k < admix_data.length; k++) {
+                if (diffPopArr[j] == admix_data[k].name) {
+                    count++;
+                    k1_totalVal = floatObj.add(k1_totalVal, admix_data[k].k1);
+                    k2_totalVal = floatObj.add(k2_totalVal, admix_data[k].k2);
+                    k3_totalVal = floatObj.add(k3_totalVal, admix_data[k].k3);
+                    k4_totalVal = floatObj.add(k4_totalVal, admix_data[k].k4);
+                    k5_totalVal = floatObj.add(k5_totalVal, admix_data[k].k5);
+                    k6_totalVal = floatObj.add(k6_totalVal, admix_data[k].k6);
+                    k7_totalVal = floatObj.add(k7_totalVal, admix_data[k].k7);
+                    k8_totalVal = floatObj.add(k8_totalVal, admix_data[k].k8);
+                    k9_totalVal = floatObj.add(k9_totalVal, admix_data[k].k9);
+                    k10_totalVal = floatObj.add(k10_totalVal, admix_data[k].k10);
+                    k11_totalVal = floatObj.add(k11_totalVal, admix_data[k].k11);
+                    k12_totalVal = floatObj.add(k12_totalVal, admix_data[k].k12);
+                    k13_totalVal = floatObj.add(k13_totalVal, admix_data[k].k13);
+                    k14_totalVal = floatObj.add(k14_totalVal, admix_data[k].k14);
+                    k15_totalVal = floatObj.add(k15_totalVal, admix_data[k].k15);
+                    k16_totalVal = floatObj.add(k16_totalVal, admix_data[k].k16);
+                    k17_totalVal = floatObj.add(k17_totalVal, admix_data[k].k17);
+                    k18_totalVal = floatObj.add(k18_totalVal, admix_data[k].k18);
+                    k19_totalVal = floatObj.add(k19_totalVal, admix_data[k].k19);
+                    k20_totalVal = floatObj.add(k20_totalVal, admix_data[k].k20);
+                }
+            };
+            for (var n = 1; n <= whichk; n++) {
+                var resObj = {};
+                resObj.name = 'k' + n;
+                if (n == 1) {
+                    resObj.value = floatObj.divide(k1_totalVal, count);
+                } else if (n == 2) {
+                    resObj.value = floatObj.divide(k2_totalVal, count);
+                } else if (n == 3) {
+                    resObj.value = floatObj.divide(k3_totalVal, count);
+                } else if (n == 4) {
+                    resObj.value = floatObj.divide(k4_totalVal, count);
+                } else if (n == 5) {
+                    resObj.value = floatObj.divide(k5_totalVal, count);
+                } else if (n == 6) {
+                    resObj.value = floatObj.divide(k6_totalVal, count);
+                } else if (n == 7) {
+                    resObj.value = floatObj.divide(k7_totalVal, count);
+                } else if (n == 8) {
+                    resObj.value = floatObj.divide(k8_totalVal, count);
+                } else if (n == 9) {
+                    resObj.value = floatObj.divide(k9_totalVal, count);
+                } else if (n == 10) {
+                    resObj.value = floatObj.divide(k10_totalVal, count);
+                } else if (n == 11) {
+                    resObj.value = floatObj.divide(k11_totalVal, count);
+                } else if (n == 12) {
+                    resObj.value = floatObj.divide(k12_totalVal, count);
+                } else if (n == 13) {
+                    resObj.value = floatObj.divide(k13_totalVal, count);
+                } else if (n == 14) {
+                    resObj.value = floatObj.divide(k14_totalVal, count);
+                } else if (n == 15) {
+                    resObj.value = floatObj.divide(k15_totalVal, count);
+                } else if (n == 16) {
+                    resObj.value = floatObj.divide(k16_totalVal, count);
+                } else if (n == 17) {
+                    resObj.value = floatObj.divide(k17_totalVal, count);
+                } else if (n == 18) {
+                    resObj.value = floatObj.divide(k18_totalVal, count);
+                } else if (n == 19) {
+                    resObj.value = floatObj.divide(k19_totalVal, count);
+                } else if (n == 20) {
+                    resObj.value = floatObj.divide(k20_totalVal, count);
+                }
+                resArr.push(resObj);
+            }
+            //console.log(resArr);
+            return resArr;
+        }();
+        seriesArr.push(seriesObj);
+    };
+    //console.log(seriesArr);
+    var option = {
+        //backgroundColor: 'white',
+        tooltip: {
+            trigger: 'item'
+        },
+        // visualMap: {
+        //     show: false,
+        //     min: 0,
+        //     max: 1,
+        //     left: 'left',
+        //     text: ['高', '低'],
+        //     calculable: true,
+        //     color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3', '#ff3333', 'orange', 'yellow', 'lime', 'aqua']
+        // },
+        color: ['#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3',
+            "#000000", "#000080", "#3CB371", "#FF8C00", "#FF0000", "#6495ED", "#FF1493", "#00BFFF", "cyan"
+        ],
+        series: seriesArr
+    }
+    admixtureChart.setOption(option, true);
+    admixtureChart.setOption({
+        series: function() {
+            var positionArr = [];
+            for (var i = 0; i < diffPopPositionArr.length; i++) {
+                var positionObj = {};
+                positionObj.name = diffPopPositionArr[i].name;
+                positionObj.center = admixtureChart.convertToPixel({ seriesIndex: 0 }, [diffPopPositionArr[i].longitude, diffPopPositionArr[i].latitude]);
+                positionArr.push(positionObj);
+            }
+            return positionArr;
+        }()
+    });
+    window.addEventListener("resize", function() {
+        admixtureChart.setOption({
+            series: function() {
+                var positionArr = [];
+                for (var i = 0; i < diffPopPositionArr.length; i++) {
+                    var positionObj = {};
+                    positionObj.name = diffPopPositionArr[i].name;
+                    positionObj.center = admixtureChart.convertToPixel({ seriesIndex: 0 }, [diffPopPositionArr[i].longitude, diffPopPositionArr[i].latitude]);
+                    positionArr.push(positionObj);
+                }
+                return positionArr;
+            }()
+        });
+    });
+    //饼图随地图移动
+    admixtureChart.on("geoRoam", function() {
+        admixtureChart.setOption({
+            series: function() {
+                var positionArr = [];
+                for (var i = 0; i < diffPopPositionArr.length; i++) {
+                    var positionObj = {};
+                    positionObj.name = diffPopPositionArr[i].name;
+                    positionObj.center = admixtureChart.convertToPixel({ seriesIndex: 0 }, [diffPopPositionArr[i].longitude, diffPopPositionArr[i].latitude]);
+                    positionArr.push(positionObj);
+                }
+                return positionArr;
+            }()
+        });
+    })
+}
+
+function loadDiffKAdmixtrue(admixture2_data, whichk) {
+    var k_data = {};
+    for (var i = 0; i < whichk; i++) {
+        var kn_dataArr = [];
+        for (var j = 0; j < admixture2_data.length; j++) {
+            kn_dataArr.push({ value: admixture2_data[j]['k' + (i + 1)], sample: admixture2_data[j].indivName });
+        }
+        k_data['k' + (i + 1)] = kn_dataArr;
+    };
+    var k0_data = [];
+    for (var a = 0; a < admixture2_data.length; a++) {
+        k0_data.push(0);
+    }
+    admixture2Chart.setOption({
+        legend: {
+            show: true,
+            data: function() {
+                var legend_data = [];
+                for (var i = 0; i < whichk; i++) {
+                    legend_data.push('k' + (i + 1));
+                }
+                return legend_data;
+            }()
+        },
+        tooltip: {
+            show: true,
+            trigger: 'axis',
+            axisPointer: { // 坐标轴指示器，坐标轴触发有效
+                type: 'shadow' // 默认为直线，可选为：'line' | 'shadow'
+            },
+            formatter: function(params) {
+                //console.log(params);
+                var returnVal = params[1].data.sample + "--" + params[1].name + "<br>";
+                for (var i = 1; i < params.length; i++) {
+                    if (i == 5 || i == 10 || i == 15) {
+                        returnVal += '<br>';
+                    }
+                    returnVal += params[i].seriesName + " : " + params[i].value + ";&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+                }
+                return returnVal;
+            }
+        },
+        angleAxis: {
+            show: true,
+            type: 'category',
+            boundaryGap: false,
+            data: function() {
+                var x_data = [];
+                for (var i = 0; i < admixture2_data.length; i++) {
+                    x_data.push(admixture2_data[i].name);
+                }
+                //console.log(x_data.unique());
+                return x_data;
+            }(),
+            z: 10,
+            axisTick: {
+                show: false,
+                interval: function(index, name) {
+                    console.log(index + '---' + name);
+                    return false;
+                }
+            },
+            axisLabel: {
+                show: true,
+                interval: function(index, name) {
+                    console.log(index + '---' + name);
+                    return false;
+                }
+            }
+        },
+        radiusAxis: {
+            show: false,
+            name: 'Proportion',
+            boundaryGap: true,
+            min: -1,
+            max: 1,
+            splitLine: { show: false },
+            axisLabel: { rotate: 60 }
+        },
+        polar: {
+            //radius: ['50%', '100%']
+        },
+        color: ['white', '#c23531', '#2f4554', '#61a0a8', '#d48265', '#91c7ae', '#749f83', '#ca8622', '#bda29a', '#6e7074', '#546570', '#c4ccd3',
+            "#000000", "#000080", "#3CB371", "#FF8C00", "#FF0000", "#6495ED", "#FF1493", "#00BFFF", "cyan"
+        ],
+        series: function() {
+            var series_data = [{ name: 'knull', type: 'bar', coordinateSystem: 'polar', stack: 'k', data: k0_data }];
+            for (var i = 0; i < whichk; i++) {
+                var series_dataObj = {};
+                series_dataObj.name = 'k' + (i + 1);
+                series_dataObj.type = 'bar';
+                series_dataObj.coordinateSystem = 'polar';
+                series_dataObj.stack = 'k';
+                series_dataObj.data = k_data['k' + (i + 1)];
+                series_data.push(series_dataObj);
+            }
+            return series_data;
+        }()
+    }, true)
 }
 
 /**

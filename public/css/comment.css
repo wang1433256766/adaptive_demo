@@ -1,0 +1,273 @@
+.main-content {
+    width: 100%;
+    padding: 20px 10px;
+    padding-bottom: 80px;
+    box-sizing: border-box;
+}
+
+.main-content #tabs {
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.main-content #tabs li {
+    float: left;
+    margin: 0 .5em 0 0;
+}
+
+.main-content #tabs a {
+    position: relative;
+    background: #fff;
+    /* background: #ddd;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+    background-image: -webkit-linear-gradient(top, #fff, #ddd);
+    background-image: -moz-linear-gradient(top, #fff, #ddd);
+    background-image: -ms-linear-gradient(top, #fff, #ddd);
+    background-image: -o-linear-gradient(top, #fff, #ddd);
+    background-image: linear-gradient(to bottom, #fff, #ddd); */
+    padding: .6em 1.5em;
+    float: left;
+    text-decoration: none;
+    color: #bf5640;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
+    -webkit-border-radius: 5px 0 0 0;
+    -moz-border-radius: 5px 0 0 0;
+    border-radius: 5px 0 0 0;
+    -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
+    -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
+    box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
+}
+
+.main-content #tabs a:hover,
+.main-content #tabs a:hover::after,
+.main-content #tabs a:focus,
+.main-content #tabs a:focus::after {
+    background: #F5F8F9;
+}
+
+.main-content #tabs a:focus {
+    outline: 0;
+}
+
+.main-content #tabs a::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: -.5em;
+    bottom: 0;
+    width: 1em;
+    background: #fff;
+    /* background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
+    background-image: -webkit-linear-gradient(top, #fff, #ddd);
+    background-image: -moz-linear-gradient(top, #fff, #ddd);
+    background-image: -ms-linear-gradient(top, #fff, #ddd);
+    background-image: -o-linear-gradient(top, #fff, #ddd);
+    background-image: linear-gradient(to bottom, #fff, #ddd); */
+    -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+    -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
+    -webkit-transform: skew(10deg);
+    -moz-transform: skew(10deg);
+    -ms-transform: skew(10deg);
+    -o-transform: skew(10deg);
+    transform: skew(10deg);
+    -webkit-border-radius: 0 5px 0 0;
+    -moz-border-radius: 0 5px 0 0;
+    border-radius: 0 5px 0 0;
+}
+
+.main-content #tabs #current a,
+.main-content #tabs #current a::after {
+    background: #bf5640;
+    color: #fff;
+    z-index: 3;
+}
+
+
+/* ------------------------------------------------- */
+
+.main-content #content {
+    background: #F5F8F9;
+    padding: 2em;
+    position: relative;
+    z-index: 2;
+    -moz-border-radius: 0 5px 5px 5px;
+    -webkit-border-radius: 0 5px 5px 5px;
+    border-radius: 0 5px 5px 5px;
+    border-top: 1px solid #bf5640;
+    -moz-box-shadow: 0 -2px 3px -2px rgba(191, 86, 64, .5);
+    -webkit-box-shadow: 0 -2px 3px -2px rgba(191, 86, 64, .5);
+    box-shadow: 0 -2px 3px -2px rgba(191, 86, 64, .5);
+    box-sizing: border-box;
+}
+
+.main-content #content #tab1 .search-part {
+    width: 100%;
+    float: left;
+    padding: 1em;
+}
+
+.main-content #content #tab1 .search-part input {
+    float: left;
+    /* width: 200px; */
+    width: 60%;
+    height: 40px;
+    border: 2px solid #bf5640;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.main-content #content #tab1 .search-part button {
+    float: left;
+    /* width: 80px; */
+    width: 25%;
+    height: 40px;
+    border-color: #bf5640;
+    background: #bf5640;
+    color: #fff;
+}
+
+.main-content #content #tab1 .tab1-ul {
+    width: 100%;
+    list-style: none;
+    display: inline-block;
+}
+
+.main-content #content #tab1 .tab1-ul .tab1-li {
+    padding: 1em;
+}
+
+.main-content #content #tab1 .tab1-ul .tab1-li .tab1-comment {
+    line-height: 1.4em;
+    font-size: 18px;
+    font-weight: bolder;
+}
+
+.main-content #content #tab1 .tab1-ul .tab1-li .tab1-comment a {
+    color: #444;
+    text-decoration: none;
+}
+
+.main-content #content #tab1 .tab1-ul .tab1-li .tab1-info {
+    display: inline-block;
+    width: 100%;
+    padding-top: 5px;
+    line-height: 1.4em;
+    font-size: 14px;
+    color: #999;
+}
+
+.main-content #content #tab1 .tab1-ul .tab1-li .tab1-info .tab1-reply {
+    width: 50%;
+    display: inline-block;
+    float: right;
+    text-align: right;
+}
+
+.main-content #content #tab1 .tab1-ul .tab1-li .tab1-info .tab1-date-author {
+    width: 50%;
+    display: inline-block;
+    float: left;
+    text-align: left;
+}
+
+.main-content #content #tab1 .tab1-ul .tab1-li .tab1-info .tab1-date-author .author {
+    font-weight: bolder;
+    color: #bf5640;
+}
+
+.main-content #content #tab1 #pager {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.main-content #content #tab1 .comment-opt {
+    margin-top: 50px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.main-content #content #tab1 .comment-opt #issues {
+    width: 100%;
+    height: 200px;
+    overflow: auto;
+    overflow-x: hidden;
+    padding: 1em;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.main-content #content #tab1 .comment-opt .submit {
+    width: 100%;
+    text-align: right;
+}
+
+.main-content #content #tab1 .comment-opt .submit button {
+    padding: 0.5em 2.5em;
+    background: #bf5640;
+    border: none;
+    border-radius: 3px;
+    color: #fff;
+}
+
+
+/* faq css */
+
+.main-content #content #tab2 .faq-ul {
+    width: 100%;
+    display: inline-block;
+    list-style: none;
+}
+
+.main-content #content #tab2 .faq-ul .faq-li {
+    width: 100%;
+    padding: 1em;
+    display: inline-block;
+    box-sizing: border-box;
+}
+
+.main-content #content #tab2 .faq-ul .faq-li .faq-title {
+    padding: .4em 0;
+    font-size: 24px;
+    color: #bf5640;
+}
+
+.main-content #content #tab2 .faq-ul .faq-li .faq-content {
+    padding: .4em 0;
+    line-height: 2em;
+}
+
+.main-content #content #tab2 .faq-ul .faq-li .faq-content .faq-little-title {
+    font-size: 20px;
+}
+
+@media (min-width:768px) {
+    .main-content {
+        padding: 20px 40px;
+        padding-bottom: 80px;
+    }
+    .main-content #tabs a {
+        padding: .6em 3.5em;
+    }
+    .main-content #content #tab1 .search-part input {
+        width: 200px;
+    }
+    .main-content #content #tab1 .search-part button {
+        width: 80px;
+    }
+}
+
+@media (min-width:992px) {}
+
+@media (min-width:1200px) {
+    .main-content {
+        width: 1170px;
+        margin: 0 auto;
+        padding: 20px 0px;
+        padding-bottom: 80px;
+    }
+}

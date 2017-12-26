@@ -5,9 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Variant</title>
+    <title>Ancestry</title>
     <link rel="stylesheet" type="text/css" href="../public/font_eh0fpcd88eiv0a4i/iconfont.css">
     <link rel="stylesheet" type="text/css" href="../public/css/nav_footer.css">
+    <style>
+        .main-content {
+            width: 100%;
+            padding: 20px 10px;
+            padding-bottom: 80px;
+            box-sizing: border-box;
+        }
+        
+        @media (min-width:768px) {
+            .main-content {
+                padding: 20px 40px;
+                padding-bottom: 80px;
+            }
+        }
+        
+        @media (min-width:992px) {}
+        
+        @media (min-width:1200px) {
+            .main-content {
+                width: 1170px;
+                margin: 0 auto;
+                padding: 20px 0px;
+                padding-bottom: 80px;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -35,25 +61,320 @@
                         <li class="active"><a href="./ancestry_inference.html">Ancestry-inference</a></li>
                         <li><a href="./comment.html">Comment</a></li>
                     </ul>
-                    <div class="login-self">
-                        <a href="./login.html">Login</a>
-                        <a href="./register.html">Register</a>
-                    </div>
+                    <div class="login-self"></div>
                 </div>
             </div>
         </div>
         <div class="main-content">
-            <ul>
-                <li>个体祖先成分预测，与PGGTools部分重合</li>
-                <li>需要展示的图</li>
-            </ul>
+            <div id="ancestry" style="width:100%;height:500px;"></div>
         </div>
         <div class="footer">
             CAS-MAP Partner Institute for Computational Blology [PGG]. Copyright &copy; 2015-2017
         </div>
     </div>
     <script src="../public/js/assert/jquery.min.js"></script>
+    <script src="../public/js/assert/echarts.min.js"></script>
     <script src="../public/js/nav.js"></script>
+    <script>
+        var ancestryChart = echarts.init(document.getElementById('ancestry'));
+        $.get('../public/js/json/world.json', function(worldJson) {
+            echarts.registerMap('world', worldJson);
+            ancestryChart.setOption({
+                backgroundColor: '#CFD9CE',
+                title: {
+                    text: '祖源分析',
+                    subtext: '祖源迁徙路线图',
+                    textStyle: {
+                        color: '#7bbfea'
+                    }
+                },
+                geo: {
+                    map: 'world',
+                    label: {
+                        normal: {
+                            show: false
+                        },
+                        emphasis: {
+                            show: true
+                        }
+                    },
+                    roam: true,
+                    zlevel: 1,
+                    itemStyle: {
+                        normal: {
+                            areaColor: '#8FCE73',
+                            borderColor: '#ffffff',
+                            borderWidth: 0
+                        },
+                        emphasis: {
+                            areaColor: '#8FCE73'
+                        }
+                    },
+                    regions: [
+                        //非洲
+                        area('Morocco', '#F66337'),
+                        area('Algeria', '#F66337'),
+                        area('Tunisia', '#F66337'),
+                        area('Libya', '#F66337'),
+                        area('Egypt', '#F66337'),
+                        area('W. Sahara', '#F66337'),
+                        area('Mauritania', '#F66337'),
+                        area('Mali', '#F66337'),
+                        area('Senegal', '#F66337'),
+                        area('Gambia', '#F66337'),
+                        area('Guinea-Bissau', '#F66337'),
+                        area('Guinea', '#F66337'),
+                        area('Sierra Leone', '#F66337'),
+                        area('Liberia', '#F66337'),
+                        area('Burkina Faso', '#F66337'),
+                        area('Ghana', '#F66337'),
+                        area('Togo', '#F66337'),
+                        area('Benin', '#F66337'),
+                        area('Niger', '#F66337'),
+                        area('Nigeria', '#F66337'),
+                        area('Chad', '#F66337'),
+                        area('Sudan', '#F66337'),
+                        area('Eritrea', '#F66337'),
+                        area('Djibouti', '#F66337'),
+                        area('Ethiopia', '#F66337'),
+                        area('Somalia', '#F66337'),
+                        area('Cameroon', '#F66337'),
+                        area('Central African Rep.', '#F66337'),
+                        area('S. Sudan', '#F66337'),
+                        area('Eq. Guinea', '#F66337'),
+                        area('Gabon', '#F66337'),
+                        area('Congo', '#F66337'),
+                        area('Dem. Rep. Congo', '#F66337'),
+                        area('Angola', '#F66337'),
+                        area('Rwanda', '#F66337'),
+                        area('Uganda', '#F66337'),
+                        area('Kenya', '#F66337'),
+                        area('Burundi', '#F66337'),
+                        area('Tanzania', '#F66337'),
+                        area('Zambia', '#F66337'),
+                        area('Malawi', '#F66337'),
+                        area('Namibia', '#F66337'),
+                        area('Zimbabwe', '#F66337'),
+                        area('Mozambique', '#F66337'),
+                        area('Botswana', '#F66337'),
+                        area('Swaziland', '#F66337'),
+                        area('Lesotho', '#F66337'),
+                        area('Comoros', '#F66337'),
+                        area('Madagascar', '#F66337'),
+                        area('Mauritius', '#F66337'),
+                        area('South Africa', '#F66337'),
+                        area("Côte d'Ivoire", '#F66337'),
+                        area("São Tomé and Principe", '#F66337'),
+                        area("Saint Helena Fiji", '#F66337'),
+                        area("Seychelles", '#F66337'),
+                        area("Br. Indian Ocean Ter.", '#F66337'),
+                        area("Fr. S. Antarctic Lands", '#F66337'),
+                        area("Heard I. and McDonald Is.", '#F66337'),
+                        //南美洲
+                        area("S. Geo. and S. Sandw. Is.", '#E6B443'),
+                        area("Falkland Is.", '#E6B443'),
+                        area("Argentina", '#E6B443'),
+                        area("Uruguay", '#E6B443'),
+                        area("Paraguay", '#E6B443'),
+                        area("Bolivia", '#E6B443'),
+                        area("Brazil", '#E6B443'),
+                        area("Peru", '#E6B443'),
+                        area("Ecuador", '#E6B443'),
+                        area("Suriname", '#E6B443'),
+                        area("Guyana", '#E6B443'),
+                        area("Colombia", '#E6B443'),
+                        area("Venezuela", '#E6B443'),
+                        area("Trinidad and Tobago", '#E6B443'),
+                        area("Curacao", '#E6B443'),
+                        area("Grenada", '#E6B443'),
+                        area("Chile", '#E6B443'),
+                        //东亚
+                        area("China", '#6FA7AF'),
+                        area("Russia", '#6FA7AF'),
+                        area("India", '#6FA7AF'),
+                        area("Mongolia", '#6FA7AF'),
+                        area("Dem. Rep. Korea", '#6FA7AF'),
+                        area("Korea", '#6FA7AF'),
+                        area("Japan", '#6FA7AF'),
+                        area("Nepal", '#6FA7AF'),
+                        area("Bhutan", '#6FA7AF'),
+                        area("Bangladesh", '#6FA7AF'),
+                        area("Myanmar", '#6FA7AF'),
+                        area("Lao PDR", '#6FA7AF'),
+                        area("Vietnam", '#6FA7AF'),
+                        area("Thailand", '#6FA7AF'),
+                        area("Cambodia", '#6FA7AF'),
+                        area("Sri Lanka", '#6FA7AF'),
+                        area("Philippines", '#6FA7AF'),
+                        area("Malaysia", '#6FA7AF'),
+                        area("Brunei", '#6FA7AF'),
+                        area("Singapore", '#6FA7AF'),
+                        area("Indonesia", '#6FA7AF'),
+                        area("Timor-Leste", '#6FA7AF'),
+                        //欧洲
+                        area("Austria", '#F6CC60'),
+                        area("Slovenia", '#F6CC60'),
+                        area("Hungary", '#F6CC60'),
+                        area("Slovakia", '#F6CC60'),
+                        area("Liechtenstein", '#F6CC60'),
+                        area("Switzerland", '#F6CC60'),
+                        area("Italy", '#F6CC60'),
+                        area("Croatia", '#F6CC60'),
+                        area("Bosnia and Herz.", '#F6CC60'),
+                        area("Serbia", '#F6CC60'),
+                        area("Montenegro", '#F6CC60'),
+                        area("Albania", '#F6CC60'),
+                        area("Macedonia", '#F6CC60'),
+                        area("Greece", '#F6CC60'),
+                        area("Bulgaria", '#F6CC60'),
+                        area("Romania", '#F6CC60'),
+                        area("Moldova", '#F6CC60'),
+                        area("Czech Rep.", '#F6CC60'),
+                        area("Poland", '#F6CC60'),
+                        area("Belarus", '#F6CC60'),
+                        area("Ukraine", '#F6CC60'),
+                        area("Finland", '#F6CC60'),
+                        area("Sweden", '#F6CC60'),
+                        area("Aland", '#F6CC60'),
+                        area("Estonia", '#F6CC60'),
+                        area("Latvia", '#F6CC60'),
+                        area("Lithuania", '#F6CC60'),
+                        area("Denmark", '#F6CC60'),
+                        area("Georgia", '#F6CC60'),
+                        area("Armenia", '#F6CC60'),
+                        area("Azerbaijan", '#F6CC60'),
+                        area("Turkey", '#F6CC60'),
+                        area("N. Cyprus", '#F6CC60'),
+                        area("Cyprus", '#F6CC60'),
+                        area("Norway", '#F6CC60'),
+                        area("Faeroe Is.", '#F6CC60'),
+                        area("United Kingdom", '#F6CC60'),
+                        area("Isle of Man", '#F6CC60'),
+                        area("Ireland", '#F6CC60'),
+                        area("Netherlands", '#F6CC60'),
+                        area("Germany", '#F6CC60'),
+                        area("Belgium", '#F6CC60'),
+                        area("Luxembourg", '#F6CC60'),
+                        area("Jersey", '#F6CC60'),
+                        area("France", '#F6CC60'),
+                        area("Andorra", '#F6CC60'),
+                        area("Spain", '#F6CC60'),
+                        area("Portugal", '#F6CC60')
+                    ]
+                },
+                series: [{
+                    type: 'lines',
+                    coordinateSystem: 'geo',
+                    polyline: false,
+                    symbol: ['none', 'triangle'],
+                    zlevel: 2,
+                    lineStyle: {
+                        normal: {
+                            // color: {
+                            //     type: 'linear',
+                            //     x: 0,
+                            //     y: 0,
+                            //     x2: 0,
+                            //     y2: 1,
+                            //     colorStops: [{
+                            //         offset: 0,
+                            //         color: '#ed1941'
+                            //     }, {
+                            //         offset: 1,
+                            //         color: '#ffce7b'
+                            //     }],
+                            //     globalCoord: false
+                            // },
+                            color: 'red',
+                            width: 2,
+                            opacity: 0.8,
+                            //type: 'dotted',
+                            curveness: 0.2,
+                        }
+                    },
+                    data: [{
+                        coords: [ //chad-Sudan
+                            [21.0937500000, 16.2990510146],
+                            [31.6406250000, 17.6440220279],
+                        ]
+                    }, {
+                        coords: [ //Sudan-Ethiopia
+                            [31.6406250000, 17.6440220279],
+                            [40.7812500000, 8.4071681636],
+                        ]
+                    }, {
+                        coords: [ //Ethiopia-Iran
+                            [40.7812500000, 8.4071681636],
+                            [59.7656250000, 25.7998911821],
+                        ]
+                    }, {
+                        coords: [ //Iran-India
+                            [59.7656250000, 25.7998911821],
+                            [78.7500000000, 9.1020967387],
+                        ]
+                    }, {
+                        coords: [ //India-India
+                            [78.7500000000, 9.1020967387],
+                            [86.8359375000, 21.2893743559],
+                        ]
+                    }, {
+                        coords: [ //India-Russia
+                            [86.8359375000, 21.2893743559],
+                            [50.2734375000, 57.1362393192],
+                        ]
+                    }, {
+                        coords: [ //India-Australia
+                            [86.8359375000, 21.2893743559],
+                            [125.5078125000, -23.2413461024],
+                        ]
+                    }, {
+                        coords: [ //Russia-Russia
+                            [50.2734375000, 57.1362393192],
+                            [103.3593750000, 70.9596971669],
+                        ]
+                    }, {
+                        coords: [ //Russia-United States
+                            [50.2734375000, 57.1362393192],
+                            [-104.4140625000, 42.8115217451],
+                        ]
+                    }, {
+                        coords: [ //Russia-Brazil
+                            [50.2734375000, 57.1362393192],
+                            [-53.0859375000, -5.6159858192],
+                        ]
+                    }, {
+                        coords: [ //United States-United States
+                            [-104.4140625000, 42.8115217451],
+                            [-89.6484375000, 40.1788733143],
+                        ]
+                    }]
+                }]
+            })
+        })
+
+        function area(name, color) {
+            var a = {
+                name: name,
+                selected: true,
+                label: {
+                    normal: {
+                        show: false
+                    },
+                    emphasis: {
+                        show: false
+                    }
+                },
+                itemStyle: {
+                    emphasis: {
+                        areaColor: color,
+                        borderColor: '#ffffff',
+                        borderWidth: 0
+                    }
+                }
+            };
+            return a;
+        }
+    </script>
 </body>
 
 </html>

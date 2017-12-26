@@ -84,6 +84,18 @@
     margin-right: 10px;
 }
 
+.main-content .admixture-background .admixture-part .whichK,
+.main-content .admixture2-background .admixture2-part .whichK {
+    width: 100%;
+    text-align: right;
+}
+
+.main-content .admixture-background .admixture-part .whichK span,
+.main-content .admixture2-background .admixture2-part .whichK span {
+    vertical-align: middle;
+    font-weight: bolder;
+}
+
 #pca1,
 #pca2,
 #pca3,

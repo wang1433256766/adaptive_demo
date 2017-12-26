@@ -10,258 +10,6 @@
     <link rel="stylesheet" href="../public/css/assert/pager.css">
     <link rel="stylesheet" type="text/css" href="../public/css/nav_footer.css">
     <link rel="stylesheet" href="../public/css/comment.css">
-    <style>
-        .main-content {
-            width: 100%;
-            padding: 20px 10px;
-            padding-bottom: 80px;
-            box-sizing: border-box;
-        }
-        
-        .main-content #tabs {
-            overflow: hidden;
-            width: 100%;
-            margin: 0;
-            padding: 0;
-            list-style: none;
-        }
-        
-        .main-content #tabs li {
-            float: left;
-            margin: 0 .5em 0 0;
-        }
-        
-        .main-content #tabs a {
-            position: relative;
-            background: #ddd;
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
-            background-image: -webkit-linear-gradient(top, #fff, #ddd);
-            background-image: -moz-linear-gradient(top, #fff, #ddd);
-            background-image: -ms-linear-gradient(top, #fff, #ddd);
-            background-image: -o-linear-gradient(top, #fff, #ddd);
-            background-image: linear-gradient(to bottom, #fff, #ddd);
-            padding: .6em 1.5em;
-            float: left;
-            text-decoration: none;
-            color: #444;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, .8);
-            -webkit-border-radius: 5px 0 0 0;
-            -moz-border-radius: 5px 0 0 0;
-            border-radius: 5px 0 0 0;
-            -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
-            -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
-            box-shadow: 0 2px 2px rgba(0, 0, 0, .4);
-        }
-        
-        .main-content #tabs a:hover,
-        .main-content #tabs a:hover::after,
-        .main-content #tabs a:focus,
-        .main-content #tabs a:focus::after {
-            background: #F5F8F9;
-        }
-        
-        .main-content #tabs a:focus {
-            outline: 0;
-        }
-        
-        .main-content #tabs a::after {
-            content: '';
-            position: absolute;
-            z-index: 1;
-            top: 0;
-            right: -.5em;
-            bottom: 0;
-            width: 1em;
-            background: #ddd;
-            background-image: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#ddd));
-            background-image: -webkit-linear-gradient(top, #fff, #ddd);
-            background-image: -moz-linear-gradient(top, #fff, #ddd);
-            background-image: -ms-linear-gradient(top, #fff, #ddd);
-            background-image: -o-linear-gradient(top, #fff, #ddd);
-            background-image: linear-gradient(to bottom, #fff, #ddd);
-            -moz-box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
-            -webkit-box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
-            box-shadow: 2px 2px 2px rgba(0, 0, 0, .4);
-            -webkit-transform: skew(10deg);
-            -moz-transform: skew(10deg);
-            -ms-transform: skew(10deg);
-            -o-transform: skew(10deg);
-            transform: skew(10deg);
-            -webkit-border-radius: 0 5px 0 0;
-            -moz-border-radius: 0 5px 0 0;
-            border-radius: 0 5px 0 0;
-        }
-        
-        .main-content #tabs #current a,
-        .main-content #tabs #current a::after {
-            background: #F5F8F9;
-            z-index: 3;
-        }
-        /* ------------------------------------------------- */
-        
-        .main-content #content {
-            background: #F5F8F9;
-            padding: 2em;
-            position: relative;
-            z-index: 2;
-            -moz-border-radius: 0 5px 5px 5px;
-            -webkit-border-radius: 0 5px 5px 5px;
-            border-radius: 0 5px 5px 5px;
-            -moz-box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
-            -webkit-box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
-            box-shadow: 0 -2px 3px -2px rgba(0, 0, 0, .5);
-            box-sizing: border-box;
-        }
-        
-        .main-content #content #tab1 .search-part {
-            width: 100%;
-            float: left;
-            padding: 1em;
-        }
-        
-        .main-content #content #tab1 .search-part input {
-            float: left;
-            width: 200px;
-            height: 40px;
-            border: 2px solid #bf5640;
-            padding: 0 10px;
-            box-sizing: border-box;
-        }
-        
-        .main-content #content #tab1 .search-part button {
-            float: left;
-            width: 80px;
-            height: 40px;
-            border-color: #bf5640;
-            background: #bf5640;
-            color: #fff;
-        }
-        
-        .main-content #content #tab1 .tab1-ul {
-            width: 100%;
-            list-style: none;
-            display: inline-block;
-        }
-        
-        .main-content #content #tab1 .tab1-ul .tab1-li {
-            padding: 1em;
-        }
-        
-        .main-content #content #tab1 .tab1-ul .tab1-li .tab1-comment {
-            line-height: 1.4em;
-            font-size: 18px;
-            font-weight: bolder;
-        }
-        
-        .main-content #content #tab1 .tab1-ul .tab1-li .tab1-comment a {
-            color: #444;
-            text-decoration: none;
-        }
-        
-        .main-content #content #tab1 .tab1-ul .tab1-li .tab1-info {
-            display: inline-block;
-            width: 100%;
-            padding-top: 5px;
-            line-height: 1.4em;
-            font-size: 14px;
-            color: #999;
-        }
-        
-        .main-content #content #tab1 .tab1-ul .tab1-li .tab1-info .tab1-reply {
-            width: 50%;
-            display: inline-block;
-            float: right;
-            text-align: right;
-        }
-        
-        .main-content #content #tab1 .tab1-ul .tab1-li .tab1-info .tab1-date-author {
-            width: 50%;
-            display: inline-block;
-            float: left;
-            text-align: left;
-        }
-        
-        .main-content #content #tab1 .tab1-ul .tab1-li .tab1-info .tab1-date-author .author {
-            font-weight: bolder;
-            color: #bf5640;
-        }
-        
-        .main-content #content #tab1 #pager {
-            margin-top: 20px;
-            text-align: center;
-        }
-        
-        .main-content #content #tab1 .comment-opt {
-            margin-top: 50px;
-            width: 100%;
-            box-sizing: border-box;
-        }
-        
-        .main-content #content #tab1 .comment-opt #issues {
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-        }
-        
-        .main-content #content #tab1 .comment-opt .submit {
-            width: 100%;
-            text-align: right;
-        }
-        
-        .main-content #content #tab1 .comment-opt .submit button {
-            padding: 0.5em 2.5em;
-        }
-        /* faq css */
-        
-        .main-content #content #tab2 .faq-ul {
-            width: 100%;
-            display: inline-block;
-            list-style: none;
-        }
-        
-        .main-content #content #tab2 .faq-ul .faq-li {
-            width: 100%;
-            padding: 1em;
-            display: inline-block;
-            box-sizing: border-box;
-        }
-        
-        .main-content #content #tab2 .faq-ul .faq-li .faq-title {
-            padding: .4em 0;
-            font-size: 24px;
-            color: #bf5640;
-        }
-        
-        .main-content #content #tab2 .faq-ul .faq-li .faq-content {
-            padding: .4em 0;
-            line-height: 2em;
-        }
-        
-        .main-content #content #tab2 .faq-ul .faq-li .faq-content .faq-little-title {
-            font-size: 20px;
-        }
-        
-        @media (min-width:768px) {
-            .main-content {
-                padding: 20px 40px;
-                padding-bottom: 80px;
-            }
-            .main-content #tabs a {
-                padding: .6em 3.5em;
-            }
-        }
-        
-        @media (min-width:992px) {}
-        
-        @media (min-width:1200px) {
-            .main-content {
-                width: 1170px;
-                margin: 0 auto;
-                padding: 20px 0px;
-                padding-bottom: 80px;
-            }
-        }
-    </style>
 </head>
 
 <body>
@@ -289,10 +37,7 @@
                         <li><a href="./ancestry_inference.html">Ancestry-inference</a></li>
                         <li class="active"><a href="./comment.html">Comment</a></li>
                     </ul>
-                    <div class="login-self">
-                        <a href="./login.html">Login</a>
-                        <a href="./register.html">Register</a>
-                    </div>
+                    <div class="login-self"></div>
                 </div>
             </div>
         </div>
@@ -308,7 +53,7 @@
                         <button>Search</button>
                     </div>
                     <ul class="tab1-ul">
-                        <li class="tab1-li">
+                        <!-- <li class="tab1-li">
                             <div class="tab1-comment"><a href="./comment_reply.html">How to use this Database?</a></div>
                             <div class="tab1-info">
                                 <span class="tab1-reply">4 reply</span>
@@ -323,13 +68,11 @@
                                 <span class="tab1-date-author">2017-12-6 by <span class="author">huangxin</span></span>
                             </div>
                         </li>
-                        <hr style="width:95%;margin:0 auto;opacity: 0.3;">
+                        <hr style="width:95%;margin:0 auto;opacity: 0.3;"> -->
                     </ul>
                     <div id="pager"></div>
                     <div class="comment-opt">
-                        <textarea id="issues">
-
-                        </textarea>
+                        <textarea id="issues"></textarea>
                         <div class="submit">
                             <button>submit</button>
                         </div>
@@ -363,37 +106,10 @@
         </div>
     </div>
     <script src="../public/js/assert/jquery.min.js"></script>
+    <script src="../public/js/assert/accuracy.js"></script>
     <script src="../public/js/assert/pager.js"></script>
     <script src="../public/js/nav.js"></script>
     <script src="../public/js/comment.js"></script>
-    <script>
-        $(function() {
-            $("#content>div").hide(); // Initially hide all content
-            $("#tabs li:first").attr("id", "current"); // Activate first tab
-            $("#content>div:first").fadeIn(); // Show first tab content
-
-            $('#tabs a').click(function(e) {
-                e.preventDefault();
-                $("#content>div").hide(); //Hide all content
-                $("#tabs li").attr("id", ""); //Reset id's
-                $(this).parent().attr("id", "current"); // Activate this
-                $('#' + $(this).attr('title')).fadeIn(); // Show content for current tab
-            });
-
-            var pagerBox = document.getElementById('pager');
-
-            var pager = new Pager({
-                index: 1,
-                total: 5,
-                parent: pagerBox,
-                onchange: doChangePage
-            });
-        });
-
-        function doChangePage(obj) {
-            console.log(obj);
-        }
-    </script>
 </body>
 
 </html>

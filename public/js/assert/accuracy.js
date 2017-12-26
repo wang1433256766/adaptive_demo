@@ -139,6 +139,28 @@ Array.prototype.unique = function() {
     }
     return res;
 };
+//日期格式化
+Date.prototype.format = function(format) {
+    var date = {
+        "M+": this.getMonth() + 1,
+        "d+": this.getDate(),
+        "h+": this.getHours(),
+        "m+": this.getMinutes(),
+        "s+": this.getSeconds(),
+        "q+": Math.floor((this.getMonth() + 3) / 3),
+        "S+": this.getMilliseconds()
+    };
+    if (/(y+)/i.test(format)) {
+        format = format.replace(RegExp.$1, (this.getFullYear() + '').substr(4 - RegExp.$1.length));
+    }
+    for (var k in date) {
+        if (new RegExp("(" + k + ")").test(format)) {
+            format = format.replace(RegExp.$1, RegExp.$1.length == 1 ?
+                date[k] : ("00" + date[k]).substr(("" + date[k]).length));
+        }
+    }
+    return format;
+};
 //对象数组根据多属性排序
 var sortAnces = function(prop1, prop2) {
     return function(obj1, obj2) {
@@ -169,5 +191,16 @@ var sortAnces = function(prop1, prop2) {
                 return 0;
             }
         }
+    }
+};
+
+//转义 预防xss攻击
+var unescapeHTML = function(a) {
+    a = "" + a;
+    var b = a.replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&amp;/g, "&").replace(/&quot;/g, '"').replace(/&apos;/g, "'");
+    if (b.indexOf('&lt;') >= 0 || b.indexOf('&gt;') >= 0 || b.indexOf('&amp;') >= 0 || b.indexOf('&quot;') >= 0 || b.indexOf('&apos;') >= 0) {
+        return unescapeHTML(b);
+    } else {
+        return b;
     }
 }
